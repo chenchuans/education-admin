@@ -9,18 +9,9 @@
       @click="handleClickOutside"
     />
     <sidebar class="sidebar-container" />
-    <div
-      :class="{hasTagsView: showTagsView}"
-      class="main-container"
-    >
-      <div :class="{'fixed-header': fixedHeader}">
-        <navbar />
-        <tags-view v-if="showTagsView" />
-      </div>
+    <div class="main-container">
+      <navbar />
       <app-main />
-      <right-panel v-if="showSettings">
-        <settings />
-      </right-panel>
     </div>
   </div>
 </template>
@@ -29,23 +20,17 @@
 import { Component } from 'vue-property-decorator'
 import { mixins } from 'vue-class-component'
 import { DeviceType, AppModule } from '@/store/modules/app'
-import { SettingsModule } from '@/store/modules/settings'
-import { AppMain, Navbar, Settings, Sidebar, TagsView } from './components'
-import RightPanel from '@/components/RightPanel/index.vue'
+import { AppMain, Navbar, Sidebar } from './components'
 import ResizeMixin from './mixin/resize'
 
 @Component({
-  name: 'Layout',
   components: {
     AppMain,
     Navbar,
-    RightPanel,
-    Settings,
-    Sidebar,
-    TagsView
+    Sidebar
   }
 })
-export default class extends mixins(ResizeMixin) {
+export default class Layout extends mixins(ResizeMixin) {
   get classObj() {
     return {
       hideSidebar: !this.sidebar.opened,
@@ -53,18 +38,6 @@ export default class extends mixins(ResizeMixin) {
       withoutAnimation: this.sidebar.withoutAnimation,
       mobile: this.device === DeviceType.Mobile
     }
-  }
-
-  get showSettings() {
-    return SettingsModule.showSettings
-  }
-
-  get showTagsView() {
-    return SettingsModule.showTagsView
-  }
-
-  get fixedHeader() {
-    return SettingsModule.fixedHeader
   }
 
   private handleClickOutside() {
@@ -111,15 +84,6 @@ export default class extends mixins(ResizeMixin) {
   overflow: hidden;
 }
 
-.fixed-header {
-  position: fixed;
-  top: 0;
-  right: 0;
-  z-index: 9;
-  width: calc(100% - #{$sideBarWidth});
-  transition: width 0.28s;
-}
-
 .hideSidebar {
   .main-container {
     margin-left: 54px;
@@ -127,10 +91,6 @@ export default class extends mixins(ResizeMixin) {
 
   .sidebar-container {
     width: 54px !important;
-  }
-
-  .fixed-header {
-    width: calc(100% - 54px)
   }
 }
 
@@ -156,10 +116,6 @@ export default class extends mixins(ResizeMixin) {
       transition-duration: 0.3s;
       transform: translate3d(-$sideBarWidth, 0, 0);
     }
-  }
-
-  .fixed-header {
-    width: 100%;
   }
 }
 
