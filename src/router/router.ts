@@ -24,7 +24,7 @@ const router = new Router({
     routes: [
         {
             path: '/login',
-            component: () => import('@/pages/login/index.vue'),
+            component: () => import('@/pages/login.vue'),
             meta: {
                 hidden: true
             }
@@ -39,14 +39,14 @@ const router = new Router({
         {
             path: '/',
             component: Layout,
-            redirect: '/dashboard',
+            redirect: '/home',
             children: [
                 {
-                    path: 'dashboard',
+                    path: 'home',
                     component: () => import('@/pages/home.vue'),
                     meta: {
-                        title: 'Dashboard',
-                        icon: 'dashboard'
+                        title: 'home',
+                        icon: 'home'
                     }
                 }
             ]
@@ -62,29 +62,29 @@ const router = new Router({
                     path: 'index',
                     component: () => import('@/pages/form.vue'),
                     meta: {
-                        title: 'Form',
+                        title: 'form',
                         icon: 'form'
                     }
                 }
             ]
         },
-        {
-            path: '/partner',
-            component: Layout,
-            meta: {
-                access: 'partner'
-            },
-            children: [
-                {
-                    path: 'index',
-                    component: () => import('@/pages/partner/index.vue'),
-                    meta: {
-                        title: 'Partner',
-                        icon: 'form'
-                    }
-                }
-            ]
-        },
+        // {
+        //     path: '/partner',
+        //     component: Layout,
+        //     meta: {
+        //         access: 'partner'
+        //     },
+        //     children: [
+        //         {
+        //             path: 'index',
+        //             component: () => import('@/pages/partner/index.vue'),
+        //             meta: {
+        //                 title: 'Partner',
+        //                 icon: 'form'
+        //             }
+        //         }
+        //     ]
+        // },
         {
             path: '*',
             redirect: '/404',

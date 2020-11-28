@@ -1,5 +1,5 @@
 const path = require('path')
-const name = 'ecommerce-admin-web'
+const name = 'education-admin'
 
 const webpackBaseConfig = require('./build/webpack.base.config')
 const webpackDevConfig = require('./build/webpack.dev.config')

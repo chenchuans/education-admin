@@ -10,10 +10,10 @@
         <div class="right-menu">
             <el-dropdown class="avatar-container right-menu-item hover-effect" trigger="click">
                 <div class="avatar-wrapper">
-                    <img
+                    <!-- <img
                         src="https://livintown.oss-cn-beijing.aliyuncs.com/342fe2abec8deae761ccfea3dcf25f22"
                         class="user-avatar"
-                    />
+                    /> -->
                     <i class="el-icon-caret-bottom" />
                 </div>
                 <el-dropdown-menu slot="dropdown">
