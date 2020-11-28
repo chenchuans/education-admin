@@ -44,8 +44,8 @@ export default class extends Vue {
         if (!this.isDashboard(first)) {
             matched = [
                 {
-                    path: "/dashboard",
-                    meta: { title: "Dashboard" }
+                    path: "/home",
+                    meta: { title: "首页" }
                 } as RouteRecord
             ].concat(matched);
         }
@@ -58,7 +58,7 @@ export default class extends Vue {
 
     private isDashboard(route: RouteRecord) {
         const name = route && route.meta && route.meta.title;
-        return name === "Dashboard";
+        return name === "Home";
     }
 
     private pathCompile(path: string) {

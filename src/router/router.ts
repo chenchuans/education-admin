@@ -43,64 +43,86 @@ const router = new Router({
                     path: 'home',
                     component: () => import('@/pages/home.vue'),
                     meta: {
-                        title: 'home',
-                        icon: 'home'
+                        title: '首页',
+                        icon: 'dashboard'
                     }
                 }
             ]
         },
         // --------------------课程管理-------------
-        // {
-        //     path: '/course',
-        //     component: Layout,
-        //     meta: {
-        //         access: 'course'
-        //     },
-        //     children: [
-        //         {
-        //             path: 'all',
-        //             component: () => import('@/pages/form.vue'),
-        //             meta: {
-        //                 title: '所有课程',
-        //                 icon: 'form'
-        //             }
-        //         },
-        //         {
-        //             path: 'all',
-        //             component: () => import('@/pages/form.vue'),
-        //             meta: {
-        //                 title: '所有课程',
-        //                 icon: 'form'
-        //             }
-        //         },
-        //         {
-        //             path: 'all',
-        //             component: () => import('@/pages/form.vue'),
-        //             meta: {
-        //                 title: '所有课程',
-        //                 icon: 'form'
-        //             }
-        //         },
-        //     ]
-        // },
+        {
+            path: '/course',
+            component: Layout,
+            meta: {
+                title: '课程管理',
+                access: 'course'
+            },
+            children: [
+                {
+                    path: 'all',
+                    component: () => import('@/pages/course/CourseAll.vue'),
+                    meta: {
+                        title: '所有课程'
+                    }
+                },
+                {
+                    path: 'create',
+                    component: () => import('@/pages/course/CourseCreate.vue'),
+                    meta: {
+                        title: '创建新课'
+                    }
+                },
+                {
+                    path: 'detail',
+                    component: () => import('@/pages/course/CourseDetail.vue'),
+                    meta: {
+                        title: '课程详情'
+                    }
+                },
+                {
+                    path: 'chapter-edit',
+                    component: () => import('@/pages/course/ChapterEdit.vue'),
+                    meta: {
+                        title: '添加/编辑章节'
+                    }
+                },
 
-        // {
-        //     path: '/form',
-        //     component: Layout,
-        //     meta: {
-        //         access: 'form'
-        //     },
-        //     children: [
-        //         {
-        //             path: 'index',
-        //             component: () => import('@/pages/form.vue'),
-        //             meta: {
-        //                 title: 'form',
-        //                 icon: 'form'
-        //             }
-        //         }
-        //     ]
-        // },
+            ]
+        },
+        // --------------------课程管理-------------
+        // --------------------运营管理-------------
+        {
+            path: '/operate',
+            component: Layout,
+            meta: {
+                title: '运营管理',
+                access: 'operate'
+            },
+            children: [
+                {
+                    path: 'student-information',
+                    component: () => import('@/pages/operate/StudentInformation.vue'),
+                    meta: {
+                        title: '学员信息展示'
+                    }
+                },
+                {
+                    path: 'student-detail',
+                    component: () => import('@/pages/operate/StudentDetail.vue'),
+                    meta: {
+                        title: '学员详情'
+                    }
+                },
+                {
+                    path: 'data',
+                    component: () => import('@/pages/operate/DataShow.vue'),
+                    meta: {
+                        title: '运营数据展示'
+                    }
+                },
+            ]
+        },
+        // --------------------运营管理-------------
         // {
         //     path: '/partner',
         //     component: Layout,
