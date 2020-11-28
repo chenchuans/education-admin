@@ -1,9 +1,9 @@
 <template>
     <a v-if="isExternal(to)" :href="to" target="_blank" rel="noopener">
-        <slot />
+        <slot/>
     </a>
     <router-link v-else :to="to">
-        <slot />
+        <slot/>
     </router-link>
 </template>
 

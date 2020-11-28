@@ -19,15 +19,15 @@ import '@/icons/components'
 
 Vue.use(ElementUI)
 Vue.use(SvgIcon, {
-  tagName: 'svg-icon',
-  defaultWidth: '1em',
-  defaultHeight: '1em'
+    tagName: 'svg-icon',
+    defaultWidth: '1em',
+    defaultHeight: '1em'
 })
 
 Vue.config.productionTip = false
 
 new Vue({
-  router,
-  store,
-  render: (h) => h(App)
+    router,
+    store,
+    render: (h) => h(App)
 }).$mount('#app')
