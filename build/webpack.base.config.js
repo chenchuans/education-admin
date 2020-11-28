@@ -7,8 +7,6 @@
 const path = require('path');
 const resolve = dir => path.resolve(__dirname, '../', dir);
 
-console.log(process.env.NODE_ENV);
-
 module.exports = config => {
 	config.resolve.alias
 		.set('public', resolve('public'))

@@ -1,6 +1,6 @@
 <template>
     <div
-        v-if="!item.meta || (!item.meta.hidden && hasAccess)"
+        v-if="!item.meta || !item.meta.hidden"
         :class="['menu-wrapper', isCollapse ? 'simple-mode' : 'full-mode', {'first-level': isFirstLevel}]"
     >
         <template v-if="theOnlyOneChild && !theOnlyOneChild.children">
@@ -56,14 +56,14 @@ export default class extends Vue {
     @Prop({ default: true }) private isFirstLevel!: boolean;
     @Prop({ default: "" }) private basePath!: string;
 
-    get hasAccess() {
-        if (this.item.meta) {
-            return this.$store.state.auth.access.includes(
-                this.item.meta.access
-            );
-        }
-        return true;
-    }
+    // get hasAccess() {
+    //     if (this.item.meta) {
+    //         return this.$store.state.auth.access.includes(
+    //             this.item.meta.access
+    //         );
+    //     }
+    //     return true;
+    // }
 
     get showingChildNumber() {
         if (this.item.children) {

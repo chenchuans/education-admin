@@ -24,6 +24,7 @@ Vue.use(SvgIcon, {
     defaultHeight: '1em'
 })
 
+// Vue.prototype.$message =
 Vue.config.productionTip = false
 
 new Vue({

@@ -1,57 +1,59 @@
-import { VuexModule, Module, Action, Mutation, getModule } from 'vuex-module-decorators'
-import { login } from '@/api'
-import store from '@/store'
-import { setUid, setToken } from '@/utils/session'
+import { VuexModule, Module, Action, Mutation, getModule } from 'vuex-module-decorators';
+import { login } from '@/api';
+import store from '@/store';
+import { setUid, setToken, setUsername } from '@/utils/session';
 
 export interface IAuthState {
-  uid: string
-  token: string
-  access: string[]
+    uid: string
+    token: string
+    userName: string
 }
 
 @Module({
-  dynamic: true, 
-  store, 
-  name: 'auth' 
+    dynamic: true,
+    store,
+    name: 'auth'
 })
 class Auth extends VuexModule implements IAuthState {
-  public uid: string = ''
-  public token: string = ''
-  public access: string[] = []
+    public uid: string = '';
+    public token: string = '';
+    public userName: string = '';
 
-  @Mutation
-  public resetUid(uid: string) {
-    this.uid = uid
-  }
-
-  @Mutation
-  public resetToken(token: string) {
-    this.token = token
-  }
-
-  @Mutation
-  public resetAccess(access: string[]) {
-    this.access = access
-  }
-
-  @Action
-  public async login(data: any) {
-    try {
-      const result = await login(data)
-      const _data = result.data.data
-
-      this.resetUid(_data.uid)
-      setUid(_data.uid)
-
-      this.resetToken(_data.token)
-      setToken(_data.token)
-
-      this.resetAccess(_data.access)
-      return true
-    } catch (e) {
-      return false
+    @Mutation
+    public resetUid(id: string) {
+        this.uid = id;
     }
-  }
+
+    @Mutation
+    public resetToken(token: string) {
+        this.token = token;
+    }
+
+    @Mutation
+    public resetUsername(userName: string) {
+        this.userName = userName;
+    }
+
+    @Action
+    public async login(data: any) {
+        try {
+            const result = await login(data);
+            const { id, token, userName } = result.data.data;
+
+            this.resetUid(id);
+            setUid(id);
+
+            this.resetToken(token);
+            setToken(token);
+
+            this.resetUsername(userName);
+            setUsername(userName);
+
+            return true;
+        } catch (e) {
+            return false;
+        }
+    }
 }
 
-export const AuthModule = getModule(Auth)
+export const AuthModule = getModule(Auth);

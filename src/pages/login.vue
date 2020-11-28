@@ -9,7 +9,7 @@
             label-position="left"
         >
             <div class="title-container">
-                <h3 class="title">Login Form</h3>
+                <h3 class="title">管理员登录</h3>
             </div>
 
             <el-form-item prop="userName">
@@ -60,7 +60,8 @@ import { Component, Vue, Watch } from "vue-property-decorator";
 import { Route } from "vue-router";
 import { Form as ElForm, Input } from "element-ui";
 import { isValidUsername } from "@/utils/validate";
-import { AuthModule } from "@/store/modules/auth";
+import { login } from '@/api';
+import { setUid, setToken, setUsername } from '@/utils/session';
 
 @Component({
     name: "Login"
@@ -71,11 +72,12 @@ export default class extends Vue {
         value: string,
         callback: Function
     ) => {
-        if (!isValidUsername(value)) {
-            callback(new Error("Please enter the correct user name"));
-        } else {
-            callback();
-        }
+        // if (!isValidUsername(value)) {
+        //     callback(new Error('请输入用户名'));
+        // } else {
+        //     callback();
+        // }
+        callback();
     };
 
     private validatePassword = (
@@ -83,11 +85,12 @@ export default class extends Vue {
         value: string,
         callback: Function
     ) => {
-        if (value.length < 6) {
-            callback(new Error("The password can not be less than 6 digits"));
-        } else {
-            callback();
-        }
+        // if (value.length < 6) {
+        //     callback(new Error('密码至少六位'));
+        // } else {
+        //     callback();
+        // }
+        callback();
     };
     private loginForm = {
         userName: "",
@@ -112,11 +115,7 @@ export default class extends Vue {
     }
 
     private showPwd() {
-        if (this.passwordType === "password") {
-            this.passwordType = "";
-        } else {
-            this.passwordType = "password";
-        }
+        this.passwordType === 'password' ? '' : 'password';
         this.$nextTick(() => {
             (this.$refs.password as Input).focus();
         });
@@ -124,14 +123,22 @@ export default class extends Vue {
 
     private async handleLogin() {
         (this.$refs.loginForm as ElForm).validate(async (valid: boolean) => {
-            const payload = {
-                userName: this.loginForm.userName,
-                password: this.loginForm.password,
-                accountType: "partner"
-            };
-            if (await AuthModule.login(payload)) {
+            // const payload = {
+            //     userName: this.loginForm.userName,
+            //     password: this.loginForm.password
+            // };
+            const result:any = await login({
+                userName: 'gjf',
+                passWord: '123'
+            });
+            const { id, token, userName } = result.data;
+            setUid(id);
+            setToken(token);
+            setUsername(userName);
+
+            if (result.flag) {
                 this.$router.push({
-                    path: "/dashboard"
+                    path: "/home"
                 });
             }
         });

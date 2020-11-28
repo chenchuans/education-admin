@@ -10,10 +10,7 @@
         <div class="right-menu">
             <el-dropdown class="avatar-container right-menu-item hover-effect" trigger="click">
                 <div class="avatar-wrapper">
-                    <!-- <img
-                        src="https://livintown.oss-cn-beijing.aliyuncs.com/342fe2abec8deae761ccfea3dcf25f22"
-                        class="user-avatar"
-                    /> -->
+                    <img class="user-avatar" src="@/assets/userIcon.jpg"/>
                     <i class="el-icon-caret-bottom" />
                 </div>
                 <el-dropdown-menu slot="dropdown">
@@ -30,6 +27,7 @@
 </template>
 
 <script lang="ts">
+import { removeUid, removeToken, removeUsername } from '@/utils/session';
 import { Component, Vue } from "vue-property-decorator";
 import { AppModule } from "@/store/modules/app";
 import Breadcrumb from "@/components/Breadcrumb/index.vue";
@@ -55,7 +53,10 @@ export default class Navbar extends Vue {
     }
 
     private async logout() {
-        this.$router.push(`/login?redirect=${this.$route.fullPath}`);
+        removeUid();
+        removeToken();
+        removeUsername();
+        this.$router.push('/login');
     }
 }
 </script>

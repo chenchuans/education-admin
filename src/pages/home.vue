@@ -8,13 +8,13 @@
 import { Component, Vue } from "vue-property-decorator";
 
 @Component({
-    name: "Dashboard"
+    name: "Home"
 })
 export default class extends Vue {}
 </script>
 
 <style lang="scss" scoped>
-.dashboard {
+.home {
     &-container {
         margin: 30px;
     }

@@ -5,46 +5,61 @@
  */
 
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosPromise, AxiosResponse } from 'axios';
+import { getUid, getToken } from '@/utils/session';
+import { Message } from 'element-ui';
 
 export interface ResponseData {
-  code: number
-  data?: any
-  message: string
-  success: boolean
+    code: string
+    data?: any
+    message: string
+    flag: boolean
 }
 
 class Ajax {
-  public request (options: AxiosRequestConfig): AxiosPromise { 
-    const instance: AxiosInstance = axios.create();
-    options = this.mergeConfig(options);
-    this.interceptors(instance, options.url);
-    return instance(options);
-  }
+    public request(options: AxiosRequestConfig): AxiosPromise {
+        const instance: AxiosInstance = axios.create();
+        options = this.mergeConfig(options);
+        this.interceptors(instance, options.url);
+        return instance(options);
+    }
 
-  private interceptors (instance: AxiosInstance, url?: string) {
-    // 请求拦截
-    instance.interceptors.request.use((config: AxiosRequestConfig) => {
-      config.headers['Token'] = '123456';
-      config.headers['Platform'] = 'h5/1.2.3';
-      return config;
-    }, error => Promise.reject(error));
+    private interceptors(instance: AxiosInstance, url?: string) {
+        // 请求拦截
+        instance.interceptors.request.use((config: AxiosRequestConfig) => {
+            if (!(url as string).includes('user/adminLogin')) {
+                config.headers['Token'] = getToken();
+                config.headers['Id'] = getUid();
+            }
+            return config;
+        }, error => Promise.reject(error));
 
-    // 响应拦截
-    instance.interceptors.response.use((res: AxiosResponse<ResponseData>) => {
-      const { code, success, message } = res.data.data;
-      if (code !== 0 || !success) {
-        // 提示 message 错误信息
-      }
-      return res;
-    }, error => {
-      // 提示网络错误
-      Promise.reject(error)
-    });
-  }
+        // 响应拦截
+        instance.interceptors.response.use((res: AxiosResponse<any>) => {
+            const { code, message } = res.data;
 
-  private mergeConfig (options: AxiosRequestConfig): AxiosRequestConfig {
-    return Object.assign({}, options);
-  }
+            if (code !== 200) {
+                // 提示 message 错误信息
+                Message({
+                    message,
+                    type: 'warning'
+                });
+            } else {
+                Message({
+                    message,
+                    type: 'success'
+                });
+            }
+            return res.data;
+        }, (error: string) => {
+            // 提示网络错误
+                Message.error(error);
+            Promise.reject(error)
+        });
+    }
+
+    private mergeConfig(options: AxiosRequestConfig): AxiosRequestConfig {
+        return Object.assign({}, options);
+    }
 }
 
 export default new Ajax();

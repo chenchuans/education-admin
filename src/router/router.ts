@@ -1,8 +1,6 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import Layout from '@/layout/index.vue';
-import { AuthModule } from '@/store/modules/auth'
-import { getUserInfo } from '@/api';
 import { getUid, getToken } from '@/utils/session';
 
 Vue.use(Router);
@@ -51,23 +49,58 @@ const router = new Router({
                 }
             ]
         },
-        {
-            path: '/form',
-            component: Layout,
-            meta: {
-                access: 'form'
-            },
-            children: [
-                {
-                    path: 'index',
-                    component: () => import('@/pages/form.vue'),
-                    meta: {
-                        title: 'form',
-                        icon: 'form'
-                    }
-                }
-            ]
-        },
+        // --------------------课程管理-------------
+        // {
+        //     path: '/course',
+        //     component: Layout,
+        //     meta: {
+        //         access: 'course'
+        //     },
+        //     children: [
+        //         {
+        //             path: 'all',
+        //             component: () => import('@/pages/form.vue'),
+        //             meta: {
+        //                 title: '所有课程',
+        //                 icon: 'form'
+        //             }
+        //         },
+        //         {
+        //             path: 'all',
+        //             component: () => import('@/pages/form.vue'),
+        //             meta: {
+        //                 title: '所有课程',
+        //                 icon: 'form'
+        //             }
+        //         },
+        //         {
+        //             path: 'all',
+        //             component: () => import('@/pages/form.vue'),
+        //             meta: {
+        //                 title: '所有课程',
+        //                 icon: 'form'
+        //             }
+        //         },
+        //     ]
+        // },
+
+        // {
+        //     path: '/form',
+        //     component: Layout,
+        //     meta: {
+        //         access: 'form'
+        //     },
+        //     children: [
+        //         {
+        //             path: 'index',
+        //             component: () => import('@/pages/form.vue'),
+        //             meta: {
+        //                 title: 'form',
+        //                 icon: 'form'
+        //             }
+        //         }
+        //     ]
+        // },
         // {
         //     path: '/partner',
         //     component: Layout,
@@ -101,30 +134,12 @@ router.beforeEach((to, from, next) => {
     const uid: string = getUid();
     const token: string = getToken();
 
-    if (!uid || !token) {
-        if (to.path === '/login') {
-            return next()
-        }
-        return next({
-            path: '/login'
-        });
+    if ((!uid || !token) && to.path !== '/login') {
+        return next({path: '/login'});
     }
-
-    if (to.path === '/login') {
-        return next({
-            path: '/dashboard'
-        });
-    }
-
-    if (!AuthModule.access.length) {
-        return getUserInfo(token).then(res => {
-            AuthModule.resetAccess(res.data.data.access)
-            AuthModule.resetUid(uid)
-            AuthModule.resetToken(token)
-            return next()
-        })
-    }
-
+    // if (to.path === '/login') {
+    //     return next({ path: '/' });
+    // }
     return next();
 });
 
