@@ -14,7 +14,7 @@ interface MetaType {
 }
 
 const router = new Router({
-    mode: 'history',
+    // mode: 'history',
     base: process.env.BASE_URL,
     scrollBehavior: (to, from, savedPosition) => {
         return savedPosition ? savedPosition : { x: 0, y: 0 };

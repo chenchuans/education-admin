@@ -7,9 +7,23 @@
             :multiple="false"
             :show-file-list="false"
             :on-success="handleImageSuccess">
-            <img v-if="imageUrl" :src="`${imgUrl}${imageUrl}`" class="avatar">
-            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                <img v-if="imageUrl" :src="`${imgUrl}${imageUrl}`" class="avatar"/>
+                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+            <!-- <div slot="file">
+                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                <span v-if="imageUrl" class="el-upload-list__item-actions">
+                    <span class="el-upload-list__item-preview" @click="handlePictureCardPreview">
+                        <i class="el-icon-zoom-in"></i>
+                    </span>
+                    <span class="el-upload-list__item-delete" @click="handleRemoveImage">
+                        <i class="el-icon-delete"></i>
+                    </span>
+                </span>
+            </div> -->
         </el-upload>
+        <!-- <el-dialog :visible.sync="dialogVisible">
+            <img width="100%" :src="`${imgUrl}${imageUrl}`" alt="">
+        </el-dialog> -->
     </div>
 </template>
 
@@ -17,7 +31,7 @@
 import { Component, Prop, Vue } from "vue-property-decorator";
 import { uploadImage } from "@/api";
 import { getUid, getToken } from "@/utils/session";
-const { VUE_IMG_HOST, VUE_APP_PARTNER_HOST } = process.env;
+import { IMAGE_PREFIX, VUE_APP_PARTNER_HOST } from "@/utils/global-variable.ts";
 
 @Component({
     name: "UploadImage"
@@ -26,8 +40,8 @@ export default class extends Vue {
     @Prop({ default: "" }) private value!: string;
 
     private url: string = VUE_APP_PARTNER_HOST + "/common/upload";
-    //  VUE_IMG_HOST ||
-    private imgUrl: string  = 'http://34.96.172.236:8088/eduweb/v1/resource/';
+    private imgUrl: string  = IMAGE_PREFIX;
+    private dialogVisible: boolean = false;
     private headers = {
         token: getToken(),
         uuid: +getUid()
@@ -37,8 +51,12 @@ export default class extends Vue {
         return this.value;
     }
 
-    private rmImage() {
+    private handleRemoveImage() {
         this.$emit("remove");
+    }
+
+    private handlePictureCardPreview() {
+        this.dialogVisible = true;
     }
 
     private handleImageSuccess(res: any) {

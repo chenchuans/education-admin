@@ -15,7 +15,7 @@
                 <upload-image @remove="imageRemove" @success="imageSuccess" v-model="form.courseCoverImageUrl"/>
             </el-form-item>
             <el-form-item>
-                <el-button type="primary" @click="onSubmit('form')">提交</el-button>
+                <el-button type="primary" :loading="submitLoading" @click="onSubmit('form')">{{submitLoading ? '提交中...' : '提交'}}</el-button>
                 <el-button @click="onCancel">取消</el-button>
             </el-form-item>
         </el-form>
@@ -59,6 +59,7 @@ export default class extends Vue {
         updateTime: ''
     };
     private title: string = '';
+    private submitLoading: boolean = false;
     private rules = {
         courseName: [
             { required: true, message: '请输入课程名称', trigger: 'blur' },
@@ -100,9 +101,11 @@ export default class extends Vue {
     }
 
     private onSubmit(formName: string) {
+        this.submitLoading = true;
         (this.$refs[formName] as any).validate((valid: boolean) => {
             if (valid) {
                 courseUpdate({courseInfo: this.form}).then((res: any) => {
+                    this.submitLoading = false;
                     this.$message({
                         type: 'success',
                         message: '提交成功'
@@ -110,8 +113,9 @@ export default class extends Vue {
                     this.$router.go(-1);
                 });
             } else {
+                this.submitLoading = false;
                 this.$message.error('错误提交!!');
-            return false;
+                return false;
             }
         });
     }

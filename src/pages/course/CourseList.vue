@@ -3,7 +3,7 @@
         <header class="page-header">
             <el-button type="primary" @click="handleAdd">添加课程</el-button>
         </header>
-        <el-table :data="tableList" border style="width: 100%">
+        <el-table v-loading="listLoading" :data="tableList" border style="width: 100%">
             <el-table-column fixed label="课程名称" prop="courseName"/>
             <el-table-column label="课程描述" prop="descContent"/>
             <el-table-column label="老师姓名" prop="teacherName"/>
@@ -14,17 +14,14 @@
             </el-table-column>
             <el-table-column label="封面图片" prop="courseCoverImageUrl">
                 <template slot-scope="{row}">
-                    <img @click="handleImage(`${apiUrl}${row.courseCoverImageUrl}`)" class="table-image" :src="`${apiUrl}${row.courseCoverImageUrl}`" alt="">
+                    <image-detail :url="`${apiUrl}${row.courseCoverImageUrl}`"/>
                 </template>
             </el-table-column>
             <el-table-column fixed="right" label="操作" prop="operation">
                 <template slot-scope="{row}">
                         <el-button size="mini" class="operation-button"
                             @click="handleEdit(row)">编辑</el-button>
-                        <!-- <el-popconfirm title="确定要删除当前项吗" @cancel="handleCancel" @confirm="handleDelete(row.id)">
-                            <el-button class="operation-button" size="mini" type="danger" slot="reference">删除</el-button>
-                        </el-popconfirm> -->
-                        <el-button @click="handleDelete(row.id)" class="operation-button" size="mini" type="danger" >删除</el-button>
+                        <pop-delete-button :deleteId="row.id" @delete="handleDelete"/>
                 </template>
             </el-table-column>
         </el-table>
@@ -35,11 +32,6 @@
             :size.sync="pages.size"
             @pagination="getList"
         />
-
-        <!-- 查看每一项图片详情 -->
-        <el-dialog title="图片详情" :visible.sync="isImage" width="70%">
-            <img class="image-detail" :src="currentImage" alt="">
-        </el-dialog>
     </div>
 </template>
 
@@ -48,7 +40,9 @@ import { Component, Vue } from "vue-property-decorator";
 import { PageType, ResponseType } from "@/utils/type-list.ts";
 import { courseList, courseUpdate, courseDel } from "@/api";
 import Pagination from '@/components/Pagination/index.vue';
-// const { VUE_IMG_HOST } = process.env;
+import ImageDetail from '@/components/ImageDetail/index.vue';
+import PopDeleteButton from '@/components/PopDeleteButton/index.vue';
+import { IMAGE_PREFIX } from '@/utils/global-variable.ts';
 
 interface TableListType {
     courseName: string;
@@ -61,7 +55,7 @@ interface TableListType {
 
 @Component({
     name: "CourseList",
-    components: { Pagination }
+    components: { Pagination, ImageDetail, PopDeleteButton }
 })
 export default class extends Vue {
     private pages: PageType = {
@@ -71,7 +65,7 @@ export default class extends Vue {
     };
     private currentImage: string = '';
     private isImage: boolean = false;
-    private apiUrl: string = 'http://34.96.172.236:8088/eduweb/v1/resource/';
+    private apiUrl: string = IMAGE_PREFIX;
     private listLoading: boolean = true;
     private tableList: TableListType[] = [];
 
@@ -98,24 +92,21 @@ export default class extends Vue {
     }
 
     private handleDelete(id: number) {
-        courseDel({courseInfo: {id}}).then((res: any) => {
-            if (res.code === 200) {
-                this.$message({
-                    type: 'success',
-                    message: '删除成功'
-                })
-                this.getList();
-            }
-        });
+        console.log('id', id);
+        // courseDel({courseInfo: {id}}).then((res: any) => {
+        //     if (res.code === 200) {
+        //         this.$message({
+        //             type: 'success',
+        //             message: '删除成功'
+        //         })
+        //         this.getList();
+        //     }
+        // });
     }
     // private handleCancel() {
     //     console.log(11)
     // }
 
-    private handleImage(url: string) {
-        this.currentImage = url;
-        this.isImage = true;
-    }
 }
 </script>
 
@@ -127,13 +118,6 @@ export default class extends Vue {
     &-header {
         margin: 10px 0;
         height: 50px;
-    }
-    .table-image {
-        width: 100px;
-        height: 100px;
-    }
-    .image-detail {
-        width: 100%;
     }
     &-text {
         font-size: 30px;

@@ -14,7 +14,7 @@ module.exports = {
     parallel: false,
     outputDir: 'dist',
     publicPath: process.env.NODE_ENV === 'production' ?
-        '/' : '/',
+        './' : './',
     lintOnSave: process.env.NODE_ENV === 'development',
     configureWebpack: config => configure[process.env.NODE_ENV](config),
     chainWebpack: webpackBaseConfig,

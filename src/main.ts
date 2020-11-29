@@ -15,7 +15,7 @@ import '@/styles/index.scss';
 import App from '@/App.vue';
 import store from '@/store';
 import router from '@/router/router.ts';
-import '@/icons/components'
+import '@/icons/components';
 
 Vue.use(ElementUI)
 Vue.use(SvgIcon, {
@@ -24,8 +24,7 @@ Vue.use(SvgIcon, {
     defaultHeight: '1em'
 })
 
-// Vue.prototype.$message =
-Vue.config.productionTip = false
+Vue.config.productionTip = false;
 
 new Vue({
     router,
