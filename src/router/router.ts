@@ -22,7 +22,7 @@ const router = new Router({
     routes: [
         {
             path: '/login',
-            component: () => import('@/pages/login.vue'),
+            component: () => import('@/pages/Login.vue'),
             meta: {
                 hidden: true
             }
@@ -41,7 +41,7 @@ const router = new Router({
             children: [
                 {
                     path: 'home',
-                    component: () => import('@/pages/home.vue'),
+                    component: () => import('@/pages/Home.vue'),
                     meta: {
                         title: '首页',
                         icon: 'dashboard'
@@ -59,8 +59,8 @@ const router = new Router({
             },
             children: [
                 {
-                    path: 'all',
-                    component: () => import('@/pages/course/CourseAll.vue'),
+                    path: 'list',
+                    component: () => import('@/pages/course/CourseList.vue'),
                     meta: {
                         title: '所有课程'
                     }

@@ -1,8 +1,9 @@
-import ajax, { ResponseData } from '@/utils/ajax';
+import ajax from '@/utils/ajax';
+import { ResponseType } from '@/utils/type-list';
 import { AxiosPromise } from 'axios';
 const { VUE_APP_PARTNER_HOST } = process.env;
 
-export const catalogUpdate = (data: any): AxiosPromise<ResponseData> => {
+export const catalogUpdate = (data: any): AxiosPromise<ResponseType> => {
     return ajax.request({
         url: VUE_APP_PARTNER_HOST + '/course/catalog/addOrUpdateCourseCatalog',
         data,
@@ -10,7 +11,7 @@ export const catalogUpdate = (data: any): AxiosPromise<ResponseData> => {
     })
 }
 
-export const catalogDel = (data: any): AxiosPromise<ResponseData> => {
+export const catalogDel = (data: any): AxiosPromise<ResponseType> => {
     return ajax.request({
         url: VUE_APP_PARTNER_HOST + '/course/catalog/delOrUpdateCourseCatalog',
         data,
@@ -18,7 +19,7 @@ export const catalogDel = (data: any): AxiosPromise<ResponseData> => {
     })
 }
 
-export const catalogList = (data: any): AxiosPromise<ResponseData> => {
+export const catalogList = (data: any): AxiosPromise<ResponseType> => {
     return ajax.request({
         url: VUE_APP_PARTNER_HOST + 'course/catalog/listOrUpdateCourseCatalog',
         data,
@@ -26,7 +27,7 @@ export const catalogList = (data: any): AxiosPromise<ResponseData> => {
     })
 }
 
-export const chapterUpdate = (data: any): AxiosPromise<ResponseData> => {
+export const chapterUpdate = (data: any): AxiosPromise<ResponseType> => {
     return ajax.request({
         url: VUE_APP_PARTNER_HOST + '/course/chapter/addOrUpdateCourseChapter',
         data,
@@ -34,7 +35,7 @@ export const chapterUpdate = (data: any): AxiosPromise<ResponseData> => {
     })
 }
 
-export const chapterDel = (data: any): AxiosPromise<ResponseData> => {
+export const chapterDel = (data: any): AxiosPromise<ResponseType> => {
     return ajax.request({
         url: VUE_APP_PARTNER_HOST + '/course/chapter/delOrUpdateCourseChapter',
         data,
@@ -42,7 +43,7 @@ export const chapterDel = (data: any): AxiosPromise<ResponseData> => {
     })
 }
 
-export const chapterList = (data: any): AxiosPromise<ResponseData> => {
+export const chapterList = (data: any): AxiosPromise<ResponseType> => {
     return ajax.request({
         url: VUE_APP_PARTNER_HOST + '/course/chapter/listOrUpdateCourseChapter',
         data,
@@ -50,7 +51,7 @@ export const chapterList = (data: any): AxiosPromise<ResponseData> => {
     })
 }
 
-export const contentUpdate = (data: any): AxiosPromise<ResponseData> => {
+export const contentUpdate = (data: any): AxiosPromise<ResponseType> => {
     return ajax.request({
         url: VUE_APP_PARTNER_HOST + '/course/content/addOrUpdateCourseContent',
         data,
@@ -58,7 +59,7 @@ export const contentUpdate = (data: any): AxiosPromise<ResponseData> => {
     })
 }
 
-export const contentDel = (data: any): AxiosPromise<ResponseData> => {
+export const contentDel = (data: any): AxiosPromise<ResponseType> => {
     return ajax.request({
         url: VUE_APP_PARTNER_HOST + '/course/content/delOrUpdateCourseContent',
         data,
@@ -66,7 +67,7 @@ export const contentDel = (data: any): AxiosPromise<ResponseData> => {
     })
 }
 
-export const contentList = (data: any): AxiosPromise<ResponseData> => {
+export const contentList = (data: any): AxiosPromise<ResponseType> => {
     return ajax.request({
         url: VUE_APP_PARTNER_HOST + '/course/content/listOrUpdateCourseContent',
         data,
@@ -74,7 +75,7 @@ export const contentList = (data: any): AxiosPromise<ResponseData> => {
     })
 }
 
-export const courseUpdate = (data: any): AxiosPromise<ResponseData> => {
+export const courseUpdate = (data: any): AxiosPromise<ResponseType> => {
     return ajax.request({
         url: VUE_APP_PARTNER_HOST + '/course/course/addOrUpdateCourse',
         data,
@@ -82,7 +83,7 @@ export const courseUpdate = (data: any): AxiosPromise<ResponseData> => {
     })
 }
 
-export const courseDel = (data: any): AxiosPromise<ResponseData> => {
+export const courseDel = (data: any): AxiosPromise<ResponseType> => {
     return ajax.request({
         url: VUE_APP_PARTNER_HOST + '/course/course/delCourse',
         data,
@@ -90,7 +91,7 @@ export const courseDel = (data: any): AxiosPromise<ResponseData> => {
     })
 }
 
-export const courseList = (data: any): AxiosPromise<ResponseData> => {
+export const courseList = (data: any): AxiosPromise<ResponseType> => {
     return ajax.request({
         url: VUE_APP_PARTNER_HOST + '/course/course/listCourse',
         data,

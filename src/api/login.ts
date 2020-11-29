@@ -1,8 +1,9 @@
-import ajax, { ResponseData } from '@/utils/ajax';
+import ajax from '@/utils/ajax';
+import { ResponseType } from '@/utils/type-list';
 import { AxiosPromise } from 'axios';
 const { VUE_APP_PARTNER_HOST } = process.env;
 
-export const login = (data: any): AxiosPromise<ResponseData> => {
+export const login = (data: any): AxiosPromise<ResponseType> => {
     return ajax.request({
         url: VUE_APP_PARTNER_HOST + '/user/adminLogin',
         data,
@@ -10,7 +11,7 @@ export const login = (data: any): AxiosPromise<ResponseData> => {
     })
 }
 
-// export const getUserInfo = (token: string): AxiosPromise<ResponseData> => {
+// export const getUserInfo = (token: string): AxiosPromise<ResponseType> => {
 //   return ajax.request({
 //     url: VUE_APP_PARTNER_HOST + '/getUserInfo',
 //     params: {

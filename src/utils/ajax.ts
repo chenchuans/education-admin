@@ -8,13 +8,6 @@ import axios, { AxiosInstance, AxiosRequestConfig, AxiosPromise, AxiosResponse }
 import { getUid, getToken } from '@/utils/session';
 import { Message } from 'element-ui';
 
-export interface ResponseData {
-    code: string
-    data?: any
-    message: string
-    flag: boolean
-}
-
 class Ajax {
     public request(options: AxiosRequestConfig): AxiosPromise {
         const instance: AxiosInstance = axios.create();
@@ -43,16 +36,11 @@ class Ajax {
                     message,
                     type: 'warning'
                 });
-            } else {
-                Message({
-                    message,
-                    type: 'success'
-                });
             }
             return res.data;
         }, (error: string) => {
             // 提示网络错误
-                Message.error(error);
+            Message.error(error);
             Promise.reject(error)
         });
     }

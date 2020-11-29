@@ -38,7 +38,6 @@ export default class extends Vue {
     }
 
     get routes() {
-        console.log(this.$router);
         return (this.$router as any).options.routes;
     }
 
