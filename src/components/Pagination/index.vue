@@ -66,6 +66,8 @@ export default class extends Vue {
 
 <style lang="scss" scoped>
 .pagination-container {
+    display: flex;
+    justify-content: flex-end;
     background: #fff;
     padding: 32px 16px;
 }

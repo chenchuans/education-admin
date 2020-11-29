@@ -20,8 +20,11 @@ class Ajax {
         // 请求拦截
         instance.interceptors.request.use((config: AxiosRequestConfig) => {
             if (!(url as string).includes('user/adminLogin')) {
-                config.headers['Token'] = getToken();
-                config.headers['Id'] = getUid();
+                config.headers['token'] = getToken();
+                config.headers['uuid'] = getUid();
+            }
+            if ((url as string).includes('common/upload')) {
+                config.headers['Content-Type'] = 'multipart/form-data;';
             }
             return config;
         }, error => Promise.reject(error));

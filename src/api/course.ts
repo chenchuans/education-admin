@@ -1,5 +1,5 @@
 import ajax from '@/utils/ajax';
-import { ResponseType } from '@/utils/type-list';
+import { ResponseType } from '@/utils/type-list.ts';
 import { AxiosPromise } from 'axios';
 const { VUE_APP_PARTNER_HOST } = process.env;
 

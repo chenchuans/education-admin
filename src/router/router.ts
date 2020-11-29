@@ -66,10 +66,11 @@ const router = new Router({
                     }
                 },
                 {
-                    path: 'create',
-                    component: () => import('@/pages/course/CourseCreate.vue'),
+                    path: 'update',
+                    component: () => import('@/pages/course/CourseUpdate.vue'),
                     meta: {
-                        title: '创建新课'
+                        title: '创建新课',
+                        hidden: true
                     }
                 },
                 {
