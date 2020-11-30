@@ -16,6 +16,8 @@
                         <el-button size="mini" class="operation-button"
                             @click="handleEdit(row)">编辑</el-button>
                         <pop-delete-button :deleteId="row.id" @delete="handleDelete"/>
+                        <el-button size="mini" class="operation-button"
+                            @click="handleDetail(row.id)">章节详情</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -113,6 +115,11 @@ export default class extends Vue {
                 this.getList();
             }
         });
+    }
+
+    private handleDetail(id: number) {
+        const { courseId } = this.$route.query;
+        this.$router.push(`/course/chapter-list?courseId=${courseId}&catalogId=${id}`);
     }
 }
 </script>

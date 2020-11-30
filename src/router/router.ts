@@ -79,27 +79,11 @@ const router = new Router({
                         hidden: true
                     }
                 },
-                // {
-                //     path: 'catalog-update',
-                //     component: () => import('@/pages/catalog/CatalogUpdate.vue'),
-                //     meta: {
-                //         title: '更新课程目录',
-                //         hidden: true
-                //     }
-                // },
                 {
                     path: 'chapter-list',
                     component: () => import('@/pages/chapter/ChapterList.vue'),
                     meta: {
                         title: '课程小节列表',
-                        hidden: true
-                    }
-                },
-                {
-                    path: 'chapter-update',
-                    component: () => import('@/pages/chapter/ChapterUpdate.vue'),
-                    meta: {
-                        title: '更新课程小节',
                         hidden: true
                     }
                 },
