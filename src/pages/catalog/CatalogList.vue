@@ -1,20 +1,14 @@
 <template>
     <div class="page">
         <header class="page-header">
-            <el-button type="primary" @click="handleAdd">添加课程</el-button>
+            <el-button type="primary" @click="handleAdd">添加目录</el-button>
         </header>
         <el-table v-loading="listLoading" :data="tableList" border style="width: 100%">
-            <el-table-column fixed label="课程名称" prop="courseName"/>
-            <el-table-column label="课程描述" prop="descContent"/>
-            <el-table-column label="老师姓名" prop="teacherName"/>
+            <el-table-column fixed label="目录名称" prop="catalogName"/>
+            <el-table-column label="目录描述" prop="catalogDescContent"/>
             <el-table-column label="创建时间" prop="creationTime">
                 <template slot-scope="{row}">
                     <span>{{ row.creationTime.substr(0, 10) }}</span>
-                </template>
-            </el-table-column>
-            <el-table-column label="封面图片" prop="courseCoverImageUrl">
-                <template slot-scope="{row}">
-                    <image-detail :url="`${apiUrl}${row.courseCoverImageUrl}`"/>
                 </template>
             </el-table-column>
             <el-table-column fixed="right" label="操作" prop="operation">
@@ -22,8 +16,6 @@
                         <el-button size="mini" class="operation-button"
                             @click="handleEdit(row)">编辑</el-button>
                         <pop-delete-button :deleteId="row.id" @delete="handleDelete"/>
-                        <el-button size="mini" class="operation-button"
-                            @click="handleDetail(row.id)">课程详情</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -40,24 +32,21 @@
 <script lang="ts" scoped>
 import { Component, Vue } from "vue-property-decorator";
 import { PageType, ResponseType } from "@/utils/type-list.ts";
-import { courseList, courseDel } from "@/api";
+import { catalogList, catalogDel } from "@/api";
 import Pagination from '@/components/Pagination/index.vue';
-import ImageDetail from '@/components/ImageDetail/index.vue';
 import PopDeleteButton from '@/components/PopDeleteButton/index.vue';
 import { IMAGE_PREFIX } from '@/utils/global-variable.ts';
 
 interface TableListType {
-    courseName: string;
+    catalogName: string;
     id: number;
-    descContent: string;
-    teacherName: string;
+    catalogDescContent: string;
     creationTime: string;
-    courseCoverImageUrl: string;
 }
 
 @Component({
-    name: "CourseList",
-    components: { Pagination, ImageDetail, PopDeleteButton }
+    name: "CatalogList",
+    components: { Pagination, PopDeleteButton }
 })
 export default class extends Vue {
     private pages: PageType = {
@@ -65,7 +54,6 @@ export default class extends Vue {
         size: 20,
         total: 0
     };
-    private apiUrl: string = IMAGE_PREFIX;
     private listLoading: boolean = true;
     private tableList: TableListType[] = [];
 
@@ -76,23 +64,27 @@ export default class extends Vue {
     private async getList() {
         this.tableList = [];
         const { page, size } = this.pages;
+        const { courseId } = this.$route.query;
         this.listLoading = true;
-        const { data } = await courseList({ page, size });
-        this.tableList = (data as any).courseInfos;
+        const { data } = await catalogList({ page, size, courseId });
+        this.tableList = (data as any).catalogInfos;
         this.pages.total = (data as any).total;
         this.listLoading = false;
     }
 
     private handleAdd() {
-        this.$router.push(`/course/update?type=add`);
+        const { courseId } = this.$route.query;
+        this.$router.push(`/course/catalog-update?type=add&courseId=${courseId}`);
     }
 
     private handleEdit(item: TableListType) {
-        this.$router.push(`/course/update?type=edit&editForm=${JSON.stringify(item)}`);
+        const { courseId } = this.$route.query;
+        this.$router.push(`/course/catalog-update?type=edit&editForm=${JSON.stringify(item)}&courseId=${courseId}`);
     }
 
     private handleDelete(id: number) {
-        courseDel({courseInfo: {id}}).then((res: any) => {
+        const { courseId } = this.$route.query;
+        catalogDel({catalogInfo: {id, courseId}}).then((res: any) => {
             if (res.code === 200) {
                 this.$message({
                     type: 'success',
@@ -101,10 +93,6 @@ export default class extends Vue {
                 this.getList();
             }
         });
-    }
-
-    private handleDetail(id: number) {
-        this.$router.push(`/course/detail?courseId=${id}`);
     }
 }
 </script>

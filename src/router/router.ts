@@ -14,7 +14,6 @@ interface MetaType {
 }
 
 const router = new Router({
-    // mode: 'history',
     base: process.env.BASE_URL,
     scrollBehavior: (to, from, savedPosition) => {
         return savedPosition ? savedPosition : { x: 0, y: 0 };
@@ -69,24 +68,58 @@ const router = new Router({
                     path: 'update',
                     component: () => import('@/pages/course/CourseUpdate.vue'),
                     meta: {
-                        title: '创建新课',
+                        title: '创建/编辑课程',
                         hidden: true
                     }
                 },
                 {
                     path: 'detail',
-                    component: () => import('@/pages/course/CourseDetail.vue'),
+                    component: () => import('@/pages/catalog/CatalogList.vue'),
                     meta: {
-                        title: '课程详情'
+                        title: '课程详情',
+                        hidden: true
                     }
                 },
                 {
-                    path: 'chapter-edit',
-                    component: () => import('@/pages/course/ChapterEdit.vue'),
+                    path: 'catalog-update',
+                    component: () => import('@/pages/catalog/CatalogUpdate.vue'),
                     meta: {
-                        title: '添加/编辑章节'
+                        title: '更新课程目录',
+                        hidden: true
                     }
                 },
+                {
+                    path: 'chapter-list',
+                    component: () => import('@/pages/chapter/ChapterList.vue'),
+                    meta: {
+                        title: '课程小节列表',
+                        hidden: true
+                    }
+                },
+                {
+                    path: 'chapter-update',
+                    component: () => import('@/pages/chapter/ChapterUpdate.vue'),
+                    meta: {
+                        title: '更新课程小节',
+                        hidden: true
+                    }
+                },
+                {
+                    path: 'content-list',
+                    component: () => import('@/pages/content/ContentList.vue'),
+                    meta: {
+                        title: '课程内容',
+                        hidden: true
+                    }
+                },
+                {
+                    path: 'content-update',
+                    component: () => import('@/pages/content/ContentUpdate.vue'),
+                    meta: {
+                        title: '更新课程内容',
+                        hidden: true
+                    }
+                }
 
             ]
         },
