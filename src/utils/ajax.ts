@@ -5,7 +5,7 @@
  */
 
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosPromise, AxiosResponse } from 'axios';
-import { getUid, getToken } from '@/utils/session';
+import { getUid, getToken, removeToken, removeUid, removeUsername } from '@/utils/session';
 import { Message } from 'element-ui';
 
 class Ajax {
@@ -32,12 +32,22 @@ class Ajax {
         // 响应拦截
         instance.interceptors.response.use((res: AxiosResponse<any>) => {
             const { code, message } = res.data;
-
+            if (code === 211) {
+                removeToken();
+                removeUid();
+                removeUsername();
+                Message({
+                    message: '当前用户已经在其他地方登录，请及时修改密码!',
+                    type: 'error'
+                });
+                window.location.hash = "#/login";
+                return;
+            }
             if (code !== 200) {
                 // 提示 message 错误信息
                 Message({
                     message,
-                    type: 'warning'
+                    type: 'error'
                 });
             }
             return res.data;

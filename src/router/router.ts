@@ -54,7 +54,7 @@ const router = new Router({
             component: Layout,
             meta: {
                 title: '课程管理',
-                access: 'course'
+                icon: 'dashboard'
             },
             children: [
                 {
@@ -169,9 +169,6 @@ router.beforeEach((to, from, next) => {
     if ((!uid || !token) && to.path !== '/login') {
         return next({path: '/login'});
     }
-    // if (to.path === '/login') {
-    //     return next({ path: '/' });
-    // }
     return next();
 });
 

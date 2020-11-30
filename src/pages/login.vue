@@ -125,13 +125,16 @@ export default class extends Vue {
         (this.$refs.loginForm as ElForm).validate(async (valid: boolean) => {
             const { userName:  user, password } = this.loginForm;
             //  userName: 'gjf', passWord: '123'
-            const result: any = await login({userName: user, password});
-            const { id, token, userName } = result.data;
-            setUid(id);
-            setToken(token);
-            setUsername(userName);
-
-            if (result.flag) {
+            const result: any = await login({userName: user, passWord: password});
+            if (result.code === 200) {
+                this.$message({
+                    type: 'success',
+                    message: '登录成功!'
+                });
+                const { id, token, userName } = result.data;
+                setUid(id);
+                setToken(token);
+                setUsername(userName);
                 this.$router.push({
                     path: "/home"
                 });
