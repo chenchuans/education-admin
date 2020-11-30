@@ -26,6 +26,7 @@
             :size.sync="pages.size"
             @pagination="getList"
         />
+        <catalog-update-popup v-if="dialogVisible" :dialogVisible="dialogVisible" :type="type" :currentItem="currentItem" ref="popup" @submitSuccess="submitSuccess"/>
     </div>
 </template>
 
@@ -35,6 +36,7 @@ import { PageType, ResponseType } from "@/utils/type-list.ts";
 import { catalogList, catalogDel } from "@/api";
 import Pagination from '@/components/Pagination/index.vue';
 import PopDeleteButton from '@/components/PopDeleteButton/index.vue';
+import CatalogUpdatePopup from './CatalogUpdatePopup.vue';
 import { IMAGE_PREFIX } from '@/utils/global-variable.ts';
 
 interface TableListType {
@@ -46,7 +48,7 @@ interface TableListType {
 
 @Component({
     name: "CatalogList",
-    components: { Pagination, PopDeleteButton }
+    components: { Pagination, PopDeleteButton, CatalogUpdatePopup }
 })
 export default class extends Vue {
     private pages: PageType = {
@@ -56,6 +58,14 @@ export default class extends Vue {
     };
     private listLoading: boolean = true;
     private tableList: TableListType[] = [];
+    private type: string = 'add';
+    private dialogVisible: boolean = false;
+    private currentItem: TableListType = {
+        catalogName: '',
+        id: 0,
+        creationTime: '',
+        catalogDescContent: ''
+    };
 
     created() {
         this.getList();
@@ -66,25 +76,35 @@ export default class extends Vue {
         const { page, size } = this.pages;
         const { courseId } = this.$route.query;
         this.listLoading = true;
-        const { data } = await catalogList({ page, size, courseId });
-        this.tableList = (data as any).catalogInfos;
+        const { data } = await catalogList({page, size, courseCatalogInfo: {
+            courseId
+        }});
+        this.tableList = (data as any).courseCatalogInfos;
         this.pages.total = (data as any).total;
         this.listLoading = false;
     }
 
+    private submitSuccess(value?: string) {
+        this.dialogVisible = false;
+        if (value !== 'cancel') {
+            this.getList();
+        }
+    }
+
     private handleAdd() {
-        const { courseId } = this.$route.query;
-        this.$router.push(`/course/catalog-update?type=add&courseId=${courseId}`);
+        this.type = 'add';
+        this.dialogVisible = true;
     }
 
     private handleEdit(item: TableListType) {
-        const { courseId } = this.$route.query;
-        this.$router.push(`/course/catalog-update?type=edit&editForm=${JSON.stringify(item)}&courseId=${courseId}`);
+        this.type = 'edit';
+        this.currentItem = item;
+        this.dialogVisible = true;
     }
 
     private handleDelete(id: number) {
         const { courseId } = this.$route.query;
-        catalogDel({catalogInfo: {id, courseId}}).then((res: any) => {
+        catalogDel({courseCatalogInfo: {id, courseId}}).then((res: any) => {
             if (res.code === 200) {
                 this.$message({
                     type: 'success',

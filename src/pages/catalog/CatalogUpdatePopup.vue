@@ -1,23 +1,22 @@
 <template>
-    <div class="page">
-        <h3>{{title}}</h3>
+    <el-dialog :title="title" :visible.sync="dialogVisible">
         <el-form ref="form" :rules="rules" :model="form" label-width="120px" class="form">
-            <el-form-item label="目录名称" prop="courseName">
-                <el-input v-model="form.courseName"/>
+            <el-form-item label="目录名称" prop="catalogName">
+                <el-input v-model="form.catalogName"/>
             </el-form-item>
-            <el-form-item label="目录描述" prop="descContent">
-                <el-input v-model="form.descContent" type="textarea"/>
+            <el-form-item label="目录描述" prop="catalogDescContent">
+                <el-input v-model="form.catalogDescContent" type="textarea"/>
             </el-form-item>
             <el-form-item>
                 <el-button type="primary" :loading="submitLoading" @click="onSubmit('form')">{{submitLoading ? '提交中...' : '提交'}}</el-button>
                 <el-button @click="onCancel">取消</el-button>
             </el-form-item>
         </el-form>
-    </div>
+    </el-dialog>
 </template>
 
 <script lang="ts" scoped>
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Vue, Prop } from "vue-property-decorator";
 import { catalogUpdate } from "@/api";
 
 interface FormType {
@@ -33,13 +32,16 @@ interface FormType {
     name: "CatalogUpdate"
 })
 export default class extends Vue {
+    @Prop({ required: true }) private currentItem?: FormType;
+    @Prop({ default: 'add' }) private type?: string;
+    @Prop({ default: false }) private dialogVisible?: boolean;
     private form: FormType = {
         id: null,
         catalogName: '',
         catalogDescContent: '',
         creationTime: '',
         updateTime: '',
-        courseId: this.$route.query.courseId
+        courseId: ''
     };
     private title: string = '';
     private submitLoading: boolean = false;
@@ -55,26 +57,27 @@ export default class extends Vue {
     };
 
     created() {
-        const { type } = this.$route.query;
+        const { type } = this;
         this.title = type === 'edit' ? '更新目录' : '创建目录';
         if (type === 'edit') {
-            this.form = (JSON.parse(this.$route.query.editForm as any));
+            this.form = this.currentItem as any;
         }
         delete this.form.creationTime;
         delete this.form.updateTime;
+        this.form.courseId = this.$route.query.courseId;
     }
 
     private onSubmit(formName: string) {
         this.submitLoading = true;
         (this.$refs[formName] as any).validate((valid: boolean) => {
             if (valid) {
-                catalogUpdate({cataloInfo: this.form}).then((res: any) => {
+                catalogUpdate({courseCatalogInfo: this.form}).then((res: any) => {
                     this.submitLoading = false;
                     this.$message({
                         type: 'success',
                         message: '提交成功'
                     });
-                    this.$router.go(-1);
+                    this.$emit('submitSuccess');
                 });
             } else {
                 this.submitLoading = false;
@@ -85,11 +88,7 @@ export default class extends Vue {
     }
 
     private onCancel() {
-        this.$message({
-            message: "已取消",
-            type: "warning"
-        });
-        this.$router.go(-1);
+        this.$emit('submitSuccess', 'cancel');
     }
 }
 </script>
