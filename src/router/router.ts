@@ -54,7 +54,8 @@ const router = new Router({
             component: Layout,
             meta: {
                 title: '课程管理',
-                icon: 'dashboard'
+                icon: 'dashboard',
+                access: 'course'
             },
             children: [
                 {
@@ -96,7 +97,6 @@ const router = new Router({
                         hidden: true
                     }
                 }
-
             ]
         },
         // --------------------课程管理-------------
@@ -133,23 +133,6 @@ const router = new Router({
             ]
         },
         // --------------------运营管理-------------
-        // {
-        //     path: '/partner',
-        //     component: Layout,
-        //     meta: {
-        //         access: 'partner'
-        //     },
-        //     children: [
-        //         {
-        //             path: 'index',
-        //             component: () => import('@/pages/partner/index.vue'),
-        //             meta: {
-        //                 title: 'Partner',
-        //                 icon: 'form'
-        //             }
-        //         }
-        //     ]
-        // },
         {
             path: '*',
             redirect: '/404',
