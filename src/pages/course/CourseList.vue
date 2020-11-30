@@ -9,7 +9,7 @@
             <el-table-column label="老师姓名" prop="teacherName"/>
             <el-table-column label="创建时间" prop="creationTime">
                 <template slot-scope="{row}">
-                    <span>{{ row.creationTime.substr(0, 10) }}</span>
+                    <span>{{ (row.creationTime || '').substr(0, 10) }}</span>
                 </template>
             </el-table-column>
             <el-table-column label="封面图片" prop="courseCoverImageUrl">

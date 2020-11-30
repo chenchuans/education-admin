@@ -1,17 +1,17 @@
 <template>
     <div class="page">
         <header class="page-header">
-            <el-button type="primary" @click="handleAdd">添加章节</el-button>
+            <el-button type="primary" @click="handleAdd">添加小节</el-button>
         </header>
         <el-table v-loading="listLoading" :data="tableList" border style="width: 100%">
-            <el-table-column fixed label="章节名称" prop="chapterName"/>
-            <el-table-column label="章节描述" prop="chapterDesc"/>
+            <el-table-column fixed label="小节名称" prop="chapterName"/>
+            <el-table-column label="小节描述" prop="chapterDesc"/>
             <el-table-column label="创建时间" prop="creationTime">
                 <template slot-scope="{row}">
-                    <span>{{ row.creationTime.substr(0, 10) }}</span>
+                    <span>{{ (row.creationTime || '').substr(0, 10) }}</span>
                 </template>
             </el-table-column>
-            <el-table-column label="章节图片" prop="materialsUrl">
+            <el-table-column label="小节图片" prop="materialsUrl">
                 <template slot-scope="{row}">
                     <image-detail :url="`${apiUrl}${row.materialsUrl}`"/>
                 </template>
@@ -22,7 +22,7 @@
                             @click="handleEdit(row)">编辑</el-button>
                         <pop-delete-button :deleteId="row.id" @delete="handleDelete"/>
                         <!-- <el-button size="mini" class="operation-button"
-                            @click="handleDetail(row.id)">章节详情</el-button> -->
+                            @click="handleDetail(row.id)">小节详情</el-button> -->
                 </template>
             </el-table-column>
         </el-table>
@@ -69,6 +69,7 @@ export default class extends Vue {
     private tableList: TableListType[] = [];
     private type: string = 'add';
     private dialogVisible: boolean = false;
+    private apiUrl: string = IMAGE_PREFIX;
     private currentItem: TableListType = {
         chapterName: '',
         id: 0,
