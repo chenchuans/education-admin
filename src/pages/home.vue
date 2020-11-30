@@ -1,6 +1,6 @@
 <template>
     <div class="dashboard-container">
-        <div class="dashboard-text">欢迎来到自营电商后台管理系统</div>
+        <div class="dashboard-text">欢迎来到后台管理系统</div>
     </div>
 </template>
 
@@ -14,14 +14,12 @@ export default class extends Vue {}
 </script>
 
 <style lang="scss" scoped>
-.home {
-    &-container {
-        margin: 30px;
-    }
-
-    &-text {
-        font-size: 30px;
-        line-height: 46px;
+.dashboard-container {
+    width: 100%;
+    .dashboard-text {
+        margin-top: 100px;
+        font: 50px/2 '';
+        text-align: center;
     }
 }
 </style>

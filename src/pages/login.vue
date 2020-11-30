@@ -85,11 +85,11 @@ export default class extends Vue {
         value: string,
         callback: Function
     ) => {
-        // if (value.length < 6) {
-        //     callback(new Error('密码至少六位'));
-        // } else {
-        //     callback();
-        // }
+        if (value.length < 3) {
+            callback(new Error('密码至少六位'));
+        } else {
+            callback();
+        }
         callback();
     };
     private loginForm = {
@@ -123,14 +123,9 @@ export default class extends Vue {
 
     private async handleLogin() {
         (this.$refs.loginForm as ElForm).validate(async (valid: boolean) => {
-            // const payload = {
-            //     userName: this.loginForm.userName,
-            //     password: this.loginForm.password
-            // };
-            const result:any = await login({
-                userName: 'gjf',
-                passWord: '123'
-            });
+            const { userName:  user, password } = this.loginForm;
+            //  userName: 'gjf', passWord: '123'
+            const result: any = await login({userName: user, password});
             const { id, token, userName } = result.data;
             setUid(id);
             setToken(token);

@@ -9,7 +9,7 @@
             <el-table-column label="老师姓名" prop="teacherName"/>
             <el-table-column label="创建时间" prop="creationTime">
                 <template slot-scope="{row}">
-                    <span>{{ (row.creationTime || '').substr(0, 10) }}</span>
+                    <span>{{ handleTime(row.creationTime || '') }}</span>
                 </template>
             </el-table-column>
             <el-table-column label="封面图片" prop="courseCoverImageUrl">
@@ -17,7 +17,7 @@
                     <image-detail :url="`${apiUrl}${row.courseCoverImageUrl}`"/>
                 </template>
             </el-table-column>
-            <el-table-column fixed="right" label="操作" prop="operation">
+            <el-table-column width="280px" fixed="right" label="操作" prop="operation">
                 <template slot-scope="{row}">
                         <el-button size="mini" class="operation-button"
                             @click="handleEdit(row)">编辑</el-button>
@@ -104,7 +104,11 @@ export default class extends Vue {
     }
 
     private handleDetail(id: number) {
-        this.$router.push(`/course/detail?courseId=${id}`);
+        this.$router.push(`/course/catalog-list?courseId=${id}`);
+    }
+
+    private handleTime(value: string) {
+        return value.substr(0, 10);
     }
 }
 </script>

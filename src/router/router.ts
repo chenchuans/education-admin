@@ -68,11 +68,12 @@ const router = new Router({
                     path: 'update',
                     component: () => import('@/pages/course/CourseUpdate.vue'),
                     meta: {
-                        title: '创建/编辑课程'
+                        title: '创建/编辑课程',
+                        hidden: true
                     }
                 },
                 {
-                    path: 'detail',
+                    path: 'catalog-list',
                     component: () => import('@/pages/catalog/CatalogList.vue'),
                     meta: {
                         title: '课程详情',
@@ -94,14 +95,6 @@ const router = new Router({
                         title: '课程内容',
                         hidden: true
                     }
-                },
-                {
-                    path: 'content-update',
-                    component: () => import('@/pages/content/ContentUpdate.vue'),
-                    meta: {
-                        title: '更新课程内容',
-                        hidden: true
-                    }
                 }
 
             ]
@@ -116,27 +109,27 @@ const router = new Router({
                 access: 'operate'
             },
             children: [
-                {
-                    path: 'student-information',
-                    component: () => import('@/pages/operate/StudentInformation.vue'),
-                    meta: {
-                        title: '学员信息展示'
-                    }
-                },
-                {
-                    path: 'student-detail',
-                    component: () => import('@/pages/operate/StudentDetail.vue'),
-                    meta: {
-                        title: '学员详情'
-                    }
-                },
-                {
-                    path: 'data',
-                    component: () => import('@/pages/operate/DataShow.vue'),
-                    meta: {
-                        title: '运营数据展示'
-                    }
-                },
+                // {
+                //     path: 'student-information',
+                //     component: () => import('@/pages/operate/StudentInformation.vue'),
+                //     meta: {
+                //         title: '学员信息展示'
+                //     }
+                // },
+                // {
+                //     path: 'student-detail',
+                //     component: () => import('@/pages/operate/StudentDetail.vue'),
+                //     meta: {
+                //         title: '学员详情'
+                //     }
+                // },
+                // {
+                //     path: 'data',
+                //     component: () => import('@/pages/operate/DataShow.vue'),
+                //     meta: {
+                //         title: '运营数据展示'
+                //     }
+                // },
             ]
         },
         // --------------------运营管理-------------

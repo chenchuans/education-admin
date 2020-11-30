@@ -4,6 +4,9 @@
             <el-form-item label="目录名称" prop="catalogName">
                 <el-input v-model="form.catalogName"/>
             </el-form-item>
+            <el-form-item label="目录序号" prop="orderNum">
+                <el-input v-model="form.orderNum"/>
+            </el-form-item>
             <el-form-item label="目录描述" prop="catalogDescContent">
                 <el-input v-model="form.catalogDescContent" type="textarea"/>
             </el-form-item>
@@ -26,6 +29,7 @@ interface FormType {
     creationTime: string;
     updateTime: string;
     courseId: any;
+    orderNum: number;
 }
 
 @Component({
@@ -41,7 +45,8 @@ export default class extends Vue {
         catalogDescContent: '',
         creationTime: '',
         updateTime: '',
-        courseId: ''
+        courseId: '',
+        orderNum: 0
     };
     private title: string = '';
     private submitLoading: boolean = false;
@@ -49,6 +54,9 @@ export default class extends Vue {
         catalogName: [
             { required: true, message: '请输入目录名称', trigger: 'blur' },
             { min: 2, max: 20, message: '长度在 2 到 20 个字符', trigger: 'blur' }
+        ],
+        orderNum: [
+            { required: true, message: '请输入目录序号', trigger: 'blur' }
         ],
         catalogDescContent: [
             { required: true, message: '请输入目录描述', trigger: 'blur' }

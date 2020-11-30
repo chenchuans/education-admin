@@ -6,9 +6,10 @@
         <el-table v-loading="listLoading" :data="tableList" border style="width: 100%">
             <el-table-column fixed label="小节名称" prop="chapterName"/>
             <el-table-column label="小节描述" prop="chapterDesc"/>
+            <el-table-column label="序号" prop="orderNum"/>
             <el-table-column label="创建时间" prop="creationTime">
                 <template slot-scope="{row}">
-                    <span>{{ (row.creationTime || '').substr(0, 10) }}</span>
+                    <span>{{ handleTime(row.creationTime || '') }}</span>
                 </template>
             </el-table-column>
             <el-table-column label="小节图片" prop="materialsUrl">
@@ -16,13 +17,13 @@
                     <image-detail :url="`${apiUrl}${row.materialsUrl}`"/>
                 </template>
             </el-table-column>
-            <el-table-column fixed="right" label="操作" prop="operation">
+            <el-table-column width="280px" fixed="right" label="操作" prop="operation">
                 <template slot-scope="{row}">
                         <el-button size="mini" class="operation-button"
                             @click="handleEdit(row)">编辑</el-button>
                         <pop-delete-button :deleteId="row.id" @delete="handleDelete"/>
-                        <!-- <el-button size="mini" class="operation-button"
-                            @click="handleDetail(row.id)">小节详情</el-button> -->
+                        <el-button size="mini" class="operation-button"
+                            @click="handleDetail(row.id)">小节详情</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -50,6 +51,7 @@ import { IMAGE_PREFIX } from '@/utils/global-variable.ts';
 interface TableListType {
     chapterName: string;
     id: number;
+    orderNum: number;
     materialsUrl: string;
     chapterDesc: string;
     creationTime: string;
@@ -72,6 +74,7 @@ export default class extends Vue {
     private apiUrl: string = IMAGE_PREFIX;
     private currentItem: TableListType = {
         chapterName: '',
+        orderNum: 0,
         id: 0,
         creationTime: '',
         chapterDesc: '',
@@ -126,10 +129,14 @@ export default class extends Vue {
         });
     }
 
-    // private handleDetail(id: number) {
-    //     const { courseId } = this.$route.query;
-    //     this.$router.push(`/course/chapter-list?courseId=${courseId}&chapterId=${id}`);
-    // }
+    private handleDetail(id: number) {
+        const { courseId, catalogId } = this.$route.query;
+        this.$router.push(`/course/content-list?courseId=${courseId}&chapterId=${id}&catalogId=${catalogId}`);
+    }
+
+    private handleTime(value: string) {
+        return value.substr(0, 10);
+    }
 }
 </script>
 

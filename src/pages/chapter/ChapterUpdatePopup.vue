@@ -4,8 +4,11 @@
             <el-form-item label="小节名称" prop="chapterName">
                 <el-input v-model="form.chapterName"/>
             </el-form-item>
-            <el-form-item label="小节描述" prop="chapterDescContent">
-                <el-input v-model="form.chapterDescContent" type="textarea"/>
+            <el-form-item label="小节描述" prop="chapterDesc">
+                <el-input v-model="form.chapterDesc" type="textarea"/>
+            </el-form-item>
+            <el-form-item label="小节序号" prop="orderNum">
+                <el-input v-model="form.orderNum"/>
             </el-form-item>
             <el-form-item label="上传小节图片" prop="courseCoverImageUrl">
                 <upload-image @remove="imageRemove" @success="imageSuccess" v-model="form.materialsUrl"/>
@@ -26,13 +29,14 @@ import UploadImage from '@/components/UploadImage/index.vue';
 interface FormType {
     chapterName: string;
     id: number | null;
-    chapterDescContent: string;
+    chapterDesc: string;
     materialsUrl: string;
     materialsUrlId: number;
     creationTime: string;
     updateTime: string;
     courseId: any;
     catalogId: any;
+    orderNum: number;
 }
 
 interface ImageDataType {
@@ -51,13 +55,14 @@ export default class extends Vue {
     private form: FormType = {
         id: null,
         chapterName: '',
-        chapterDescContent: '',
+        chapterDesc: '',
         materialsUrl: '',
         materialsUrlId: 0,
         creationTime: '',
         updateTime: '',
         courseId: '',
-        catalogId: ''
+        catalogId: '',
+        orderNum: 0
     };
     private title: string = '';
     private submitLoading: boolean = false;
@@ -66,7 +71,10 @@ export default class extends Vue {
             { required: true, message: '请输入目录名称', trigger: 'blur' },
             { min: 2, max: 20, message: '长度在 2 到 20 个字符', trigger: 'blur' }
         ],
-        chapterDescContent: [
+        orderNum: [
+            { required: true, message: '请输入目录名称', trigger: 'blur' }
+        ],
+        chapterDesc: [
             { required: true, message: '请输入目录描述', trigger: 'blur' }
         ],
         materialsUrl: [

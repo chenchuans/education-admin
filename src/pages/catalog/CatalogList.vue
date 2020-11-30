@@ -5,13 +5,14 @@
         </header>
         <el-table v-loading="listLoading" :data="tableList" border style="width: 100%">
             <el-table-column fixed label="目录名称" prop="catalogName"/>
+            <el-table-column label="序号" prop="orderNum"/>
             <el-table-column label="目录描述" prop="catalogDescContent"/>
             <el-table-column label="创建时间" prop="creationTime">
                 <template slot-scope="{row}">
-                    <span>{{ row.creationTime.substr(0, 10) }}</span>
+                    <span>{{ handleTime(row.creationTime || '') }}</span>
                 </template>
             </el-table-column>
-            <el-table-column fixed="right" label="操作" prop="operation">
+            <el-table-column width="280px" fixed="right" label="操作" prop="operation">
                 <template slot-scope="{row}">
                         <el-button size="mini" class="operation-button"
                             @click="handleEdit(row)">编辑</el-button>
@@ -46,6 +47,7 @@ interface TableListType {
     id: number;
     catalogDescContent: string;
     creationTime: string;
+    orderNum: number;
 }
 
 @Component({
@@ -66,6 +68,7 @@ export default class extends Vue {
         catalogName: '',
         id: 0,
         creationTime: '',
+        orderNum: 0,
         catalogDescContent: ''
     };
 
@@ -120,6 +123,10 @@ export default class extends Vue {
     private handleDetail(id: number) {
         const { courseId } = this.$route.query;
         this.$router.push(`/course/chapter-list?courseId=${courseId}&catalogId=${id}`);
+    }
+
+    private handleTime(value: string) {
+        return value.substr(0, 10);
     }
 }
 </script>
