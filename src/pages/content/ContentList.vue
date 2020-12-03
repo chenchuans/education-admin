@@ -6,15 +6,17 @@
         <el-table v-loading="listLoading" :data="tableList" border style="width: 100%">
             <el-table-column fixed label="内容类型" prop="contentType">
              <template slot-scope="{row}">
-                    <span>{{ row.contentType === 'TEXT' ? '文本' : '图片' }}</span>
+                    <span>{{ contentTypeList[row.contentType] }}</span>
                 </template>
             </el-table-column>
-            <el-table-column label="内容描述" prop="textContent"/>
+            <el-table-column label="内容" prop="textContent"/>
             <el-table-column label="创建时间" prop="creationTime">
                 <template slot-scope="{row}">
                     <span>{{ handleTime(row.creationTime || '') }}</span>
                 </template>
             </el-table-column>
+            <el-table-column label="正确答案" prop="correctAnswer"/>
+            <el-table-column label="答案提示" prop="answerTips"/>
             <el-table-column label="内容图片" prop="imageUrl">
                 <template slot-scope="{row}">
                     <image-detail :url="`${apiUrl}${row.imageUrl}`"/>
@@ -89,6 +91,12 @@ export default class extends Vue {
         textContent: '',
         updateTime: ''
     };
+    private contentTypeList = {
+        TEXT: '文本',
+        TITLE: '标题',
+        IMAGE: '图片',
+        ANSWER: '题目'
+    }
 
     created() {
         this.getList();

@@ -5,6 +5,8 @@
                 <el-radio-group v-model="form.contentType">
                     <el-radio label="IMAGE">图片类型</el-radio>
                     <el-radio label="TEXT">文本类型</el-radio>
+                    <el-radio label="TITLE">标题类型</el-radio>
+                    <el-radio label="ANSWER">答题类型</el-radio>
                 </el-radio-group>
             </el-form-item>
             <el-form-item v-if="form.contentType === 'TEXT'" label="内容详情" prop="textContent">
@@ -12,6 +14,24 @@
             </el-form-item>
             <el-form-item v-if="form.contentType === 'IMAGE'" label="内容图片" prop="imageUrl">
                 <upload-image @remove="imageRemove" @success="imageSuccess" v-model="form.imageUrl"/>
+            </el-form-item>
+
+            <!-- 标题 -->
+            <el-form-item v-if="form.contentType === 'TITLE'" label="标题名称" prop="textContent">
+                <el-input v-model="form.textContent"/>
+            </el-form-item>
+
+            <!-- 题目名称 -->
+            <el-form-item v-if="form.contentType === 'ANSWER'" label="题目名称" prop="textContent">
+                <el-input v-model="form.textContent"/>
+            </el-form-item>
+            <!-- 正确答案 -->
+            <el-form-item v-if="form.contentType === 'ANSWER'" label="正确答案" prop="textContent">
+                <el-input v-model="form.correctAnswer"/>
+            </el-form-item>
+            <!-- 答题错误提示 -->
+            <el-form-item v-if="form.contentType === 'ANSWER'" label="答题错误提示" prop="textContent">
+                <el-input :rows="8" v-model="form.answerTips" type="textarea"/>
             </el-form-item>
             <el-form-item>
                 <el-button type="primary" :loading="submitLoading" @click="onSubmit('form')">{{submitLoading ? '提交中...' : '提交'}}</el-button>
@@ -39,6 +59,8 @@ interface FormType {
     preContentId: number;
     textContent: string;
     updateTime: string;
+    correctAnswer: string;
+    answerTips: string;
 }
 
 interface ImageDataType {
@@ -68,12 +90,14 @@ export default class extends Vue {
         preContentId: 0,
         textContent: '',
         updateTime: '',
+        correctAnswer: '',
+        answerTips: ''
     };
     private title: string = '';
     private submitLoading: boolean = false;
     private rules = {
         textContent: [
-            { required: true, message: '请输入目录描述', trigger: 'blur' }
+            { required: true, message: '请输入', trigger: 'blur' }
         ],
         imageUrl: [
             { required: true, message: '请上传图片', trigger: 'change' }
@@ -109,12 +133,17 @@ export default class extends Vue {
 
     private onSubmit(formName: string) {
         this.submitLoading = true;
+        const { contentType } = this.form;
         // (this.$refs[formName] as any).validate((valid: boolean) => {
             // if (valid) {
-        if (this.form.contentType === 'TEXT') {
-            this.imageRemove();
-        } else {
+        if (contentType === 'IMAGE') {
             this.form.textContent = '';
+        } else {
+            this.imageRemove();
+        }
+        if (contentType !== 'ANSWER') {
+            this.form.answerTips = '';
+            this.form.correctAnswer = '';
         }
         contentUpdate({courseContentInfo: this.form}).then((res: any) => {
             this.submitLoading = false;
