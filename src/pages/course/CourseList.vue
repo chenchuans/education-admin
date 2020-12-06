@@ -6,10 +6,13 @@
         <el-table v-loading="listLoading" :data="tableList" border style="width: 100%">
             <el-table-column fixed label="课程名称" prop="courseName"/>
             <el-table-column label="课程描述" prop="descContent"/>
+            <el-table-column label="原价" prop="coursePrice"/>
+            <el-table-column label="优惠价" prop="specialPrice"/>
             <el-table-column label="老师姓名" prop="teacherName"/>
+            <el-table-column label="老师描述" prop="teacherDesc"/>
             <el-table-column label="创建时间" prop="creationTime">
                 <template slot-scope="{row}">
-                    <span>{{ handleTime(row.creationTime || '') }}</span>
+                    <span>{{ handleTimeFormatter(row.creationTime || '') }}</span>
                 </template>
             </el-table-column>
             <el-table-column label="封面图片" prop="courseCoverImageUrl">
@@ -40,6 +43,7 @@
 <script lang="ts" scoped>
 import { Component, Vue } from "vue-property-decorator";
 import { PageType, ResponseType } from "@/utils/type-list.ts";
+import { handleTimeFormatter } from '@/utils/utils.ts';
 import { courseList, courseDel } from "@/api";
 import Pagination from '@/components/Pagination/index.vue';
 import ImageDetail from '@/components/ImageDetail/index.vue';
@@ -52,6 +56,9 @@ interface TableListType {
     descContent: string;
     teacherName: string;
     creationTime: string;
+    specialPrice: string;
+    coursePrice: string;
+    teacherDesc: string;
     courseCoverImageUrl: string;
 }
 
@@ -72,6 +79,8 @@ export default class extends Vue {
     created() {
         this.getList();
     }
+
+    private handleTimeFormatter = handleTimeFormatter;
 
     private async getList() {
         this.tableList = [];
@@ -105,10 +114,6 @@ export default class extends Vue {
 
     private handleDetail(id: number) {
         this.$router.push(`/course/catalog-list?courseId=${id}`);
-    }
-
-    private handleTime(value: string) {
-        return value.substr(0, 10);
     }
 }
 </script>

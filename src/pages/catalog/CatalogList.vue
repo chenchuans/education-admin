@@ -9,7 +9,7 @@
             <el-table-column label="目录描述" prop="catalogDescContent"/>
             <el-table-column label="创建时间" prop="creationTime">
                 <template slot-scope="{row}">
-                    <span>{{ handleTime(row.creationTime || '') }}</span>
+                    <span>{{ handleTimeFormatter(row.creationTime || '') }}</span>
                 </template>
             </el-table-column>
             <el-table-column width="280px" fixed="right" label="操作" prop="operation">
@@ -36,6 +36,7 @@
 <script lang="ts" scoped>
 import { Component, Vue } from "vue-property-decorator";
 import { PageType, ResponseType } from "@/utils/type-list.ts";
+import { handleTimeFormatter } from '@/utils/utils.ts';
 import { catalogList, catalogDel } from "@/api";
 import Pagination from '@/components/Pagination/index.vue';
 import PopDeleteButton from '@/components/PopDeleteButton/index.vue';
@@ -75,6 +76,8 @@ export default class extends Vue {
     created() {
         this.getList();
     }
+
+    private handleTimeFormatter = handleTimeFormatter;
 
     private async getList() {
         this.tableList = [];
@@ -125,9 +128,6 @@ export default class extends Vue {
         this.$router.push(`/course/chapter-list?courseId=${courseId}&catalogId=${id}`);
     }
 
-    private handleTime(value: string) {
-        return value.substr(0, 10);
-    }
 }
 </script>
 

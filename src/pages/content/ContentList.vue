@@ -12,7 +12,7 @@
             <el-table-column label="内容" prop="textContent"/>
             <el-table-column label="创建时间" prop="creationTime">
                 <template slot-scope="{row}">
-                    <span>{{ handleTime(row.creationTime || '') }}</span>
+                    <span>{{ handleTimeFormatter(row.creationTime || '') }}</span>
                 </template>
             </el-table-column>
             <el-table-column label="正确答案" prop="correctAnswer"/>
@@ -37,13 +37,14 @@
             :size.sync="pages.size"
             @pagination="getList"
         />
-        <content-update-popup v-if="dialogVisible" :dialogVisible="dialogVisible" :type="type" :currentItem="currentItem" ref="popup" @submitSuccess="submitSuccess" :tableListLength="tableList.length"/>
+        <content-update-popup v-if="dialogVisible" :dialogVisible="dialogVisible" :type="type" :preContentId="preContentId" :currentItem="currentItem" ref="popup" @submitSuccess="submitSuccess" :tableListLength="tableList.length"/>
     </div>
 </template>
 
 <script lang="ts" scoped>
 import { Component, Vue } from "vue-property-decorator";
 import { PageType, ResponseType } from "@/utils/type-list.ts";
+import { handleTimeFormatter } from '@/utils/utils.ts';
 import { contentList, contentDel } from "@/api";
 import Pagination from '@/components/Pagination/index.vue';
 import PopDeleteButton from '@/components/PopDeleteButton/index.vue';
@@ -91,6 +92,7 @@ export default class extends Vue {
         textContent: '',
         updateTime: ''
     };
+    private preContentId: number = 0;
     private contentTypeList = {
         TEXT: '文本',
         TITLE: '标题',
@@ -101,6 +103,8 @@ export default class extends Vue {
     created() {
         this.getList();
     }
+
+    private handleTimeFormatter = handleTimeFormatter;
 
     private async getList() {
         this.tableList = [];
@@ -125,11 +129,16 @@ export default class extends Vue {
     private handleAdd() {
         this.type = 'add';
         this.dialogVisible = true;
+        const len: number = this.tableList.length;
+        if (len > 0) {
+            this.preContentId = this.tableList[len - 1].id || 0;
+        }
     }
 
     private handleEdit(item: TableListType) {
         this.type = 'edit';
         this.currentItem = item;
+        this.preContentId = item.preContentId;
         this.dialogVisible = true;
     }
 
@@ -144,10 +153,6 @@ export default class extends Vue {
                 this.getList();
             }
         });
-    }
-
-    private handleTime(value: string) {
-        return value.substr(0, 10);
     }
 }
 </script>

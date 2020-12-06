@@ -8,8 +8,17 @@
             <el-form-item label="课程描述" prop="descContent">
                 <el-input v-model="form.descContent" type="textarea"/>
             </el-form-item>
+            <el-form-item label="原价" prop="coursePrice">
+                <el-input v-model="form.coursePrice"/>
+            </el-form-item>
+            <el-form-item label="优惠价" prop="specialPrice">
+                <el-input v-model="form.specialPrice"/>
+            </el-form-item>
             <el-form-item label="老师姓名" prop="teacherName">
                 <el-input v-model="form.teacherName"/>
+            </el-form-item>
+            <el-form-item label="老师描述" prop="teacherDesc">
+                <el-input v-model="form.teacherDesc" type="textarea"/>
             </el-form-item>
             <el-form-item label="上传封面" prop="courseCoverImageUrl">
                 <upload-image @remove="imageRemove" @success="imageSuccess" v-model="form.courseCoverImageUrl"/>
@@ -28,18 +37,21 @@ import UploadImage from '@/components/UploadImage/index.vue';
 import { courseUpdate } from "@/api";
 
 interface FormType {
-    courseName: string;
+    courseName: '',
     id: number | null;
-    descContent: string;
-    teacherName: string;
+    descContent: '',
+    teacherName: '',
     courseCoverImageUrlId: number;
-    courseCoverImageUrl: string;
-    creationTime: string;
-    updateTime: string;
+    courseCoverImageUrl: '',
+    creationTime: '',
+    updateTime: '',
+    specialPrice: '',
+    coursePrice: '',
+    teacherDesc: '',
 }
 
 interface ImageDataType {
-    url: string;
+    url: '',
     id: number;
 }
 
@@ -56,7 +68,10 @@ export default class extends Vue {
         courseCoverImageUrlId: 0,
         courseCoverImageUrl:'',
         creationTime: '',
-        updateTime: ''
+        updateTime: '',
+        specialPrice: '',
+        coursePrice: '',
+        teacherDesc: ''
     };
     private title: string = '';
     private submitLoading: boolean = false;
@@ -72,6 +87,15 @@ export default class extends Vue {
         teacherName: [
             { required: true, message: '请输入老师姓名', trigger: 'blur' },
             { min: 1, max: 10, message: '长度在 1 到 10 个字符', trigger: 'blur' }
+        ],
+        teacherDesc: [
+            { required: true, message: '请输入老师描述', trigger: 'blur' }
+        ],
+        specialPrice: [
+            { required: true, message: '请输入优惠价', trigger: 'blur' }
+        ],
+        coursePrice: [
+            { required: true, message: '请输入原价', trigger: 'blur' }
         ],
         courseCoverImageUrl: [
             { required: true, message: '请上传封面图片', trigger: 'change' },

@@ -77,6 +77,7 @@ export default class extends Vue {
     @Prop({ default: 'add' }) private type?: string;
     @Prop({ default: false }) private dialogVisible?: boolean;
     @Prop({ default: 0 }) private tableListLength?: number;
+    @Prop({ default: 0 }) private preContentId?: number;
     private form: FormType = {
         chapterId: 0,
         courseId: 0,
@@ -145,6 +146,7 @@ export default class extends Vue {
             this.form.answerTips = '';
             this.form.correctAnswer = '';
         }
+        this.form.preContentId = this.preContentId as number;
         contentUpdate({courseContentInfo: this.form}).then((res: any) => {
             this.submitLoading = false;
             this.$message({

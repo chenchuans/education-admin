@@ -9,12 +9,7 @@
             <el-table-column label="序号" prop="orderNum"/>
             <el-table-column label="创建时间" prop="creationTime">
                 <template slot-scope="{row}">
-                    <span>{{ handleTime(row.creationTime || '') }}</span>
-                </template>
-            </el-table-column>
-            <el-table-column label="小节图片" prop="materialsUrl">
-                <template slot-scope="{row}">
-                    <image-detail :url="`${apiUrl}${row.materialsUrl}`"/>
+                    <span>{{ handleTimeFormatter(row.creationTime || '') }}</span>
                 </template>
             </el-table-column>
             <el-table-column width="280px" fixed="right" label="操作" prop="operation">
@@ -41,10 +36,10 @@
 <script lang="ts" scoped>
 import { Component, Vue } from "vue-property-decorator";
 import { PageType, ResponseType } from "@/utils/type-list.ts";
+import { handleTimeFormatter } from '@/utils/utils.ts';
 import { chapterList, chapterDel } from "@/api";
 import Pagination from '@/components/Pagination/index.vue';
 import PopDeleteButton from '@/components/PopDeleteButton/index.vue';
-import ImageDetail from '@/components/ImageDetail/index.vue';
 import ChapterUpdatePopup from './ChapterUpdatePopup.vue';
 import { IMAGE_PREFIX } from '@/utils/global-variable.ts';
 
@@ -52,14 +47,13 @@ interface TableListType {
     chapterName: string;
     id: number;
     orderNum: number;
-    materialsUrl: string;
     chapterDesc: string;
     creationTime: string;
 }
 
 @Component({
     name: "ChapterList",
-    components: { Pagination, PopDeleteButton, ChapterUpdatePopup, ImageDetail }
+    components: { Pagination, PopDeleteButton, ChapterUpdatePopup }
 })
 export default class extends Vue {
     private pages: PageType = {
@@ -71,19 +65,19 @@ export default class extends Vue {
     private tableList: TableListType[] = [];
     private type: string = 'add';
     private dialogVisible: boolean = false;
-    private apiUrl: string = IMAGE_PREFIX;
     private currentItem: TableListType = {
         chapterName: '',
         orderNum: 0,
         id: 0,
         creationTime: '',
-        chapterDesc: '',
-        materialsUrl: ''
+        chapterDesc: ''
     };
 
     created() {
         this.getList();
     }
+
+    private handleTimeFormatter = handleTimeFormatter;
 
     private async getList() {
         this.tableList = [];
@@ -132,10 +126,6 @@ export default class extends Vue {
     private handleDetail(id: number) {
         const { courseId, catalogId } = this.$route.query;
         this.$router.push(`/course/content-list?courseId=${courseId}&chapterId=${id}&catalogId=${catalogId}`);
-    }
-
-    private handleTime(value: string) {
-        return value.substr(0, 10);
     }
 }
 </script>

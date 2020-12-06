@@ -10,6 +10,12 @@
             <el-form-item label="目录描述" prop="catalogDescContent">
                 <el-input v-model="form.catalogDescContent" type="textarea"/>
             </el-form-item>
+            <el-form-item label="资料名称" prop="materialsName">
+                <el-input v-model="form.materialsName"/>
+            </el-form-item>
+            <el-form-item label="上传资料" prop="materialsUrl">
+                 <upload-file @success="imageSuccess" v-model="form.materialsUrl"/>
+            </el-form-item>
             <el-form-item>
                 <el-button type="primary" :loading="submitLoading" @click="onSubmit('form')">{{submitLoading ? '提交中...' : '提交'}}</el-button>
                 <el-button @click="onCancel">取消</el-button>
@@ -21,6 +27,7 @@
 <script lang="ts" scoped>
 import { Component, Vue, Prop } from "vue-property-decorator";
 import { catalogUpdate } from "@/api";
+import UploadFile from '@/components/UploadFile/index.vue';
 
 interface FormType {
     catalogName: string;
@@ -29,11 +36,14 @@ interface FormType {
     creationTime: string;
     updateTime: string;
     courseId: any;
+    materialsName: string;
     orderNum: number;
+    materialsUrl: string;
 }
 
 @Component({
-    name: "CatalogUpdate"
+    name: "CatalogUpdate",
+    components: { UploadFile }
 })
 export default class extends Vue {
     @Prop({ required: true }) private currentItem?: FormType;
@@ -42,6 +52,8 @@ export default class extends Vue {
     private form: FormType = {
         id: null,
         catalogName: '',
+        materialsUrl: '',
+        materialsName: '',
         catalogDescContent: '',
         creationTime: '',
         updateTime: '',
@@ -60,6 +72,12 @@ export default class extends Vue {
         ],
         catalogDescContent: [
             { required: true, message: '请输入目录描述', trigger: 'blur' }
+        ],
+        materialsName: [
+            { required: true, message: '请输入资料名称', trigger: 'blur' }
+        ],
+        materialsUrl: [
+            { required: true, message: '请上传资料', trigger: 'blur' }
         ]
 
     };
@@ -93,6 +111,11 @@ export default class extends Vue {
                 return false;
             }
         });
+    }
+
+    private imageSuccess(data: any) {
+        const { url } = data;
+        this.form.materialsUrl = url;
     }
 
     private onCancel() {
