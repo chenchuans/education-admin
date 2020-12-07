@@ -39,6 +39,13 @@ export default class extends Vue {
         return this.value;
     }
 
+    created() {
+        const { value } = this;
+        if (value) {
+            this.fileList = [{name: value, url: `${this.imgUrl}${value}`}];
+        }
+    }
+
     private handlePictureCardPreview() {
         this.dialogVisible = true;
     }
