@@ -109,27 +109,50 @@ const router = new Router({
                 access: 'operate'
             },
             children: [
-                // {
-                //     path: 'student-information',
-                //     component: () => import('@/pages/operate/StudentInformation.vue'),
-                //     meta: {
-                //         title: '学员信息展示'
-                //     }
-                // },
-                // {
-                //     path: 'student-detail',
-                //     component: () => import('@/pages/operate/StudentDetail.vue'),
-                //     meta: {
-                //         title: '学员详情'
-                //     }
-                // },
-                // {
-                //     path: 'data',
-                //     component: () => import('@/pages/operate/DataShow.vue'),
-                //     meta: {
-                //         title: '运营数据展示'
-                //     }
-                // },
+                {
+                    path: 'semester-management',
+                    component: () => import('@/pages/semester/SemesterManagement.vue'),
+                    meta: {
+                        title: '学期管理'
+                    }
+                },
+                {
+                    path: 'semester-management-update',
+                    component: () => import('@/pages/semester/SemesterManagementUpdate.vue'),
+                    meta: {
+                        title: '学期管理编辑',
+                        hidden: true
+                    }
+                },
+                {
+                    path: 'teacher-management',
+                    component: () => import('@/pages/teacher/TeacherManagement.vue'),
+                    meta: {
+                        title: '老师管理'
+                    }
+                },
+                {
+                    path: 'teacher-management-update',
+                    component: () => import('@/pages/teacher/TeacherManagementUpdate.vue'),
+                    meta: {
+                        title: '老师管理编辑',
+                        hidden: true
+                    }
+                },
+                {
+                    path: 'course-promotion',
+                    component: () => import('@/pages/operate/CoursePromotion.vue'),
+                    meta: {
+                        title: '课程推广'
+                    }
+                },
+                {
+                    path: 'learning-situation',
+                    component: () => import('@/pages/operate/LearningSituation.vue'),
+                    meta: {
+                        title: '学生学习状况'
+                    }
+                },
             ]
         },
         // --------------------运营管理-------------
