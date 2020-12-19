@@ -7,11 +7,11 @@
             <el-table-column label="优惠价" prop="specialPrice"/>
             <el-table-column label="老师姓名" prop="teacherName"/>
             <el-table-column label="老师描述" prop="teacherDesc"/>
-            <el-table-column label="创建时间" prop="creationTime">
+            <!-- <el-table-column label="创建时间" prop="creationTime">
                 <template slot-scope="{row}">
                     <span>{{ handleTimeFormatter(row.creationTime || '') }}</span>
                 </template>
-            </el-table-column>
+            </el-table-column> -->
             <el-table-column label="封面图片" prop="courseCoverImageUrl">
                 <template slot-scope="{row}">
                     <image-detail :url="`${apiUrl}${row.courseCoverImageUrl}`"/>

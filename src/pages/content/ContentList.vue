@@ -10,11 +10,11 @@
                 </template>
             </el-table-column>
             <el-table-column label="内容" prop="textContent"/>
-            <el-table-column label="创建时间" prop="creationTime">
+            <!-- <el-table-column label="创建时间" prop="creationTime">
                 <template slot-scope="{row}">
                     <span>{{ handleTimeFormatter(row.creationTime || '') }}</span>
                 </template>
-            </el-table-column>
+            </el-table-column> -->
             <el-table-column label="正确答案" prop="correctAnswer"/>
             <el-table-column label="答案提示" prop="answerTips"/>
             <el-table-column label="内容图片" prop="imageUrl">

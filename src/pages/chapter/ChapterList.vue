@@ -7,11 +7,11 @@
             <el-table-column fixed label="小节名称" prop="chapterName"/>
             <el-table-column label="小节描述" prop="chapterDesc"/>
             <el-table-column label="序号" prop="orderNum"/>
-            <el-table-column label="创建时间" prop="creationTime">
+            <!-- <el-table-column label="创建时间" prop="creationTime">
                 <template slot-scope="{row}">
                     <span>{{ handleTimeFormatter(row.creationTime || '') }}</span>
                 </template>
-            </el-table-column>
+            </el-table-column> -->
             <el-table-column width="280px" fixed="right" label="操作" prop="operation">
                 <template slot-scope="{row}">
                         <el-button size="mini" class="operation-button"
