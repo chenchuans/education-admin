@@ -2,23 +2,56 @@
     <div class="page">
         <h3>{{title}}</h3>
         <el-form ref="form" :rules="rules" :model="form" label-width="120px" class="form">
-            <el-form-item label="老师姓名" prop="teacherName">
-                <el-input v-model="form.teacherName"/>
+            <el-form-item label="学期名称" prop="semesterName">
+                <el-input v-model="form.semesterName" />
             </el-form-item>
-            <el-form-item label="老师手机号" prop="phoneNumber">
-                <el-input v-model="form.phoneNumber"/>
+            <el-form-item label="学期描述" prop="semesterDesc">
+                <el-input v-model="form.semesterDesc" />
             </el-form-item>
-            <el-form-item label="登录用户名" prop="userName">
-                <el-input v-model="form.userName"/>
+            <el-form-item label="学期编号" prop="orderNum">
+                <el-input v-model="form.orderNum" />
             </el-form-item>
-            <el-form-item label="登录密码" prop="passWord">
-                <el-input v-model="form.passWord"/>
+            <el-form-item label="学期成员数" prop="hairCount">
+                <el-input v-model="form.hairCount" />
             </el-form-item>
-            <el-form-item label="上传老师微信" prop="adminWeChatQRCode">
-                <upload-image @remove="imageRemove" @success="imageSuccess" v-model="form.adminWeChatQRCode"/>
+            <el-form-item label="当前课程" prop="courseId">
+                <el-select v-model="form.courseId" filterable placeholder="请选择">
+                    <el-option
+                        v-for="item in courseList"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value"
+                    ></el-option>
+                </el-select>
+            </el-form-item>
+            <el-form-item label="老师姓名" prop="teacherId">
+                <el-select v-model="form.teacherId" filterable placeholder="请选择">
+                    <el-option
+                        v-for="item in teacherList"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value"
+                    ></el-option>
+                </el-select>
+            </el-form-item>
+            <el-form-item label="开始截止时间" prop="startTime">
+                <el-date-picker
+                    v-model="time"
+                    type="datetimerange"
+                    :picker-options="pickerOptions"
+                    range-separator="至"
+                    start-placeholder="开始时间"
+                    end-placeholder="截止时间"
+                    align="right"
+                    @change="dateChange"
+                />
             </el-form-item>
             <el-form-item>
-                <el-button type="primary" :loading="submitLoading" @click="onSubmit('form')">{{submitLoading ? '提交中...' : '提交'}}</el-button>
+                <el-button
+                    type="primary"
+                    :loading="submitLoading"
+                    @click="onSubmit('form')"
+                >{{submitLoading ? '提交中...' : '提交'}}</el-button>
                 <el-button @click="onCancel">取消</el-button>
             </el-form-item>
         </el-form>
@@ -27,79 +60,155 @@
 
 <script lang="ts" scoped>
 import { Component, Vue } from "vue-property-decorator";
-import UploadImage from '@/components/UploadImage/index.vue';
-import { saveTeacher } from "@/api";
+import { getCourseSelect, getTeacherSelect, saveSemester } from "@/api";
 
 interface FormType {
-    teacherName: string;
     id: number | null;
-    phoneNumber: string;
-    adminWeChatQRCode: string;
-    userName: string;
-    passWord: string;
-}
-
-interface ImageDataType {
-    url: '',
-    id: number;
+    courseId: number;
+    teacherId: number;
+    orderNum: number;
+    hairCount: number;
+    startTime: number;
+    endTime: number;
+    semesterName: string;
+    semesterDesc: string;
 }
 
 @Component({
-    name: "CourseUpdate",
-    components: { UploadImage }
+    name: "SemesterManagementUpdate"
 })
 export default class extends Vue {
     private form: FormType = {
-        teacherName: '',
-        phoneNumber: '',
-        userName: '',
         id: null,
-        passWord: '',
-        adminWeChatQRCode:''
+        courseId: 0,
+        teacherId: 0,
+        orderNum: 0,
+        hairCount: 0,
+        startTime: 0,
+        endTime: 0,
+        semesterName: '',
+        semesterDesc: ''
     };
+    private time: any[] = [];
     private title: string = '';
     private submitLoading: boolean = false;
+    private courseList: [] = [];
+    private teacherList: [] = [];
     private rules = {
-        teacherName: [
-            { required: true, message: '请输入老师姓名', trigger: 'blur' },
-            { min: 1, max: 10, message: '长度在 1 到 10 个字符', trigger: 'blur' }
+        orderNum: [
+            { required: true, message: '请输入老师姓名', trigger: 'blur' }
         ],
-        phoneNumber: [
-            { required: true, message: '请输入老师手机号', trigger: 'blur' }
+        hairCount: [
+            { required: true, message: '请输入学期人数', trigger: 'blur' }
         ],
-        userName: [
-            { required: true, message: '请输入用户名', trigger: 'blur' }
-        ],
-        passWord: [
-            { required: true, message: '请输入用户密码', trigger: 'blur' }
-        ],
-        adminWeChatQRCode: [
-            { required: true, message: '请上传老师微信', trigger: 'change' },
+        semesterName: [
+            { required: true, message: '请输入学期名称', trigger: 'blur' }
         ]
-
+    };
+    private pickerOptions = {
+            shortcuts: [
+                {
+                    text: '最近一天',
+                    onClick(picker: any) {
+                        const end = new Date();
+                        const start = new Date();
+                        start.setTime(start.getTime() - 3600 * 1000 * 24 * 1);
+                        picker.$emit('pick', [start, end]);
+                    }
+                },
+                {
+                    text: '最近三天',
+                    onClick(picker: any) {
+                        const end = new Date();
+                        const start = new Date();
+                        start.setTime(start.getTime() - 3600 * 1000 * 24 * 3);
+                        picker.$emit('pick', [start, end]);
+                    }
+                },
+                {
+                    text: '最近一周',
+                    onClick(picker: any) {
+                        const end = new Date();
+                        const start = new Date();
+                        start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+                        picker.$emit('pick', [start, end]);
+                    }
+                }, {
+                    text: '最近一个月',
+                    onClick(picker: any) {
+                        const end = new Date();
+                        const start = new Date();
+                        start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+                        picker.$emit('pick', [start, end]);
+                    }
+                }, {
+                    text: '最近三个月',
+                    onClick(picker: any) {
+                        const end = new Date();
+                        const start = new Date();
+                        start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+                        picker.$emit('pick', [start, end]);
+                    }
+                }
+            ]
     };
 
     created() {
+        this.getCourseSelect();
+        this.getTeacherSelect();
         const { type } = this.$route.query;
-        this.title = type === 'edit' ? '更新老师信息' : '创建老师信息';
+        this.title = type === 'edit' ? '更新课程期数' : '创建课程期数';
         if (type === 'edit') {
             this.form = (JSON.parse(this.$route.query.editForm as any));
+            const {startTime, endTime} =  this.form;
+            this.time = [startTime, endTime];
         }
     }
 
-    private imageRemove() {
-        this.form.adminWeChatQRCode = '';
+    private getCourseSelect() {
+        getCourseSelect({}).then((res: any) => {
+            if (res.code === 200) {
+                this.courseList = res.data.map((item: any) => {
+                    const {courseName, id} = item;
+                    return {value: id, label: courseName};
+                });
+                if (this.$route.query.type === 'add' && this.courseList.length > 0) {
+                    this.form.courseId = (this.courseList as any)[0].value;
+                }
+            } else if (res.code === 201) {
+                this.$message.error(res.message);
+            }
+        });
     }
 
-    private imageSuccess(data: ImageDataType) {
-        this.form.adminWeChatQRCode = data.url;
+    private getTeacherSelect() {
+        getTeacherSelect({}).then((res: any) => {
+            if (res.code === 200) {
+                this.teacherList = res.data.map((item: any) => {
+                    const {teacherName, id} = item;
+                    return {value: id, label: teacherName};
+                });
+                if (this.$route.query.type === 'add' && this.teacherList.length > 0) {
+                    this.form.teacherId = (this.teacherList as any)[0].value;
+                }
+            } else if (res.code === 201) {
+                this.$message.error(res.message);
+            }
+        });
+    }
+
+    private dateChange(value: any) {
+        console.log(222, value, this.time);
+
     }
 
     private onSubmit(formName: string) {
         this.submitLoading = true;
         (this.$refs[formName] as any).validate((valid: boolean) => {
             if (valid) {
-                saveTeacher({user: this.form}).then((res: any) => {
+                this.form.startTime = new Date((this.time as any)[0]).getTime();
+                this.form.endTime = new Date((this.time as any)[1]).getTime();
+                saveSemester({semester: this.form}).then((res: any) => {
                     this.submitLoading = false;
                     if (res.code === 200) {
                         this.$message({

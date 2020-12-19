@@ -6,14 +6,14 @@ const { VUE_APP_PARTNER_HOST } = process.env;
 // 学期添加
 export const saveSemester = (data: any): AxiosPromise<ResponseType> => {
     return ajax.request({
-        url: VUE_APP_PARTNER_HOST + 'manage/semester/add',
+        url: VUE_APP_PARTNER_HOST + '/manage/semester/add',
         data,
         method: 'post'
     })
 }
 
 // 学期下拉列表
-export const getSemesterSelect = (data: any): AxiosPromise<ResponseType> => {
+export const getCourseSelect = (data: any): AxiosPromise<ResponseType> => {
     return ajax.request({
         url: VUE_APP_PARTNER_HOST + '/manage/semester/course/list',
         data,
@@ -24,7 +24,7 @@ export const getSemesterSelect = (data: any): AxiosPromise<ResponseType> => {
 // 删除学期
 export const delSemester = (data: any): AxiosPromise<ResponseType> => {
     return ajax.request({
-        url: VUE_APP_PARTNER_HOST + ' /manage/semester/del',
+        url: VUE_APP_PARTNER_HOST + '/manage/semester/del',
         data,
         method: 'post'
     })
