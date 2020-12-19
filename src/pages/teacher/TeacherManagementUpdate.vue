@@ -55,8 +55,7 @@ export default class extends Vue {
         userName: '',
         id: null,
         passWord: '',
-        adminWeChatQRCode:'',
-
+        adminWeChatQRCode:''
     };
     private title: string = '';
     private submitLoading: boolean = false;
@@ -86,8 +85,6 @@ export default class extends Vue {
         if (type === 'edit') {
             this.form = (JSON.parse(this.$route.query.editForm as any));
         }
-        // delete this.form.creationTime;
-        // delete this.form.updateTime;
     }
 
     private imageRemove() {

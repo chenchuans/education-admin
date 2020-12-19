@@ -8,11 +8,6 @@
             <el-table-column label="手机号" prop="phoneNumber"/>
             <el-table-column label="登录用户名" prop="userName"/>
             <el-table-column label="登录密码" prop="passWord"/>
-            <el-table-column label="创建时间" prop="creationTime">
-                <template slot-scope="{row}">
-                    <span>{{ handleTimeFormatter(row.creationTime || '') }}</span>
-                </template>
-            </el-table-column>
             <el-table-column label="老师微信" prop="adminWeChatQRCode">
                 <template slot-scope="{row}">
                     <image-detail :url="`${apiUrl}${row.adminWeChatQRCode}`"/>
@@ -49,7 +44,6 @@ interface TableListType {
     id: number;
     passWord: string;
     teacherName: string;
-    creationTime: string;
     userName: string;
     adminWeChatQRCode: string;
 }
