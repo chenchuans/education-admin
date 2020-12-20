@@ -42,6 +42,7 @@ import Pagination from '@/components/Pagination/index.vue';
 import PopDeleteButton from '@/components/PopDeleteButton/index.vue';
 import CatalogUpdatePopup from './CatalogUpdatePopup.vue';
 import { IMAGE_PREFIX } from '@/utils/global-variable.ts';
+import { versionDel } from '../../api/course';
 
 interface TableListType {
     catalogName: string;
@@ -111,8 +112,8 @@ export default class extends Vue {
     }
 
     private handleDelete(id: number) {
-        const { courseId } = this.$route.query;
-        catalogDel({courseCatalogInfo: {id, courseId}}).then((res: any) => {
+        const { courseId, versionId } = this.$route.query;
+        catalogDel({courseCatalogInfo: {id, courseId, versionId}}).then((res: any) => {
             if (res.code === 200) {
                 this.$message({
                     type: 'success',

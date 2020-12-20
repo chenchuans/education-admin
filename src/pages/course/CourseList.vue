@@ -115,7 +115,7 @@ export default class extends Vue {
     }
 
     private handleDetail(id: number) {
-        this.$router.push(`/course/catalog-list?courseId=${id}`);
+        this.$router.push(`/course/version-list?courseId=${id}`);
     }
 }
 </script>

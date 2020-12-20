@@ -74,10 +74,26 @@ const router = new Router({
                     }
                 },
                 {
+                    path: 'version-list',
+                    component: () => import('@/pages/version/VersionList.vue'),
+                    meta: {
+                        title: '课程详情',
+                        hidden: true
+                    }
+                },
+                {
+                    path: 'version-update',
+                    component: () => import('@/pages/version/VersionUpdate.vue'),
+                    meta: {
+                        title: '版本编辑',
+                        hidden: true
+                    }
+                },
+                {
                     path: 'catalog-list',
                     component: () => import('@/pages/catalog/CatalogList.vue'),
                     meta: {
-                        title: '课程详情',
+                        title: '版本详情',
                         hidden: true
                     }
                 },
