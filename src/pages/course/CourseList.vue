@@ -8,6 +8,7 @@
             <el-table-column label="课程描述" prop="descContent"/>
             <el-table-column label="原价" prop="coursePrice"/>
             <el-table-column label="优惠价" prop="specialPrice"/>
+            <el-table-column label="体验价" prop="experienceClassPrice"/>
             <el-table-column label="老师姓名" prop="teacherName"/>
             <el-table-column label="老师描述" prop="teacherDesc"/>
             <!-- <el-table-column label="创建时间" prop="creationTime">
@@ -57,6 +58,7 @@ interface TableListType {
     teacherName: string;
     creationTime: string;
     specialPrice: string;
+    experienceClassPrice: string;
     coursePrice: string;
     teacherDesc: string;
     courseCoverImageUrl: string;

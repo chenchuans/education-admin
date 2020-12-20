@@ -14,6 +14,9 @@
             <el-form-item label="优惠价" prop="specialPrice">
                 <el-input v-model="form.specialPrice"/>
             </el-form-item>
+            <el-form-item label="体验价" prop="experienceClassPrice">
+                <el-input v-model="form.experienceClassPrice"/>
+            </el-form-item>
             <el-form-item label="老师姓名" prop="teacherName">
                 <el-input v-model="form.teacherName"/>
             </el-form-item>
@@ -39,15 +42,16 @@ import { courseUpdate } from "@/api";
 interface FormType {
     courseName: '',
     id: number | null;
-    descContent: '',
-    teacherName: '',
+    descContent: string;
+    teacherName: string;
     courseCoverImageUrlId: number;
-    courseCoverImageUrl: '',
-    creationTime: '',
-    updateTime: '',
-    specialPrice: '',
-    coursePrice: '',
-    teacherDesc: '',
+    courseCoverImageUrl: string;
+    creationTime: string;
+    updateTime: string;
+    specialPrice: string;
+    coursePrice: string;
+    experienceClassPrice: string;
+    teacherDesc: string;
 }
 
 interface ImageDataType {
@@ -71,6 +75,7 @@ export default class extends Vue {
         updateTime: '',
         specialPrice: '',
         coursePrice: '',
+        experienceClassPrice: '',
         teacherDesc: ''
     };
     private title: string = '';
@@ -82,7 +87,6 @@ export default class extends Vue {
         ],
         descContent: [
             { required: true, message: '请输入课程描述', trigger: 'blur' }
-            // { min: 2, max: 20, message: '长度在 2 到 20 个字符', trigger: 'blur' }
         ],
         teacherName: [
             { required: true, message: '请输入老师姓名', trigger: 'blur' },
@@ -96,6 +100,9 @@ export default class extends Vue {
         ],
         coursePrice: [
             { required: true, message: '请输入原价', trigger: 'blur' }
+        ],
+        experienceClassPrice: [
+            { required: true, message: '请输入体验课价', trigger: 'blur' }
         ],
         courseCoverImageUrl: [
             { required: true, message: '请上传封面图片', trigger: 'change' },

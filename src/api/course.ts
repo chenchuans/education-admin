@@ -99,4 +99,26 @@ export const courseList = (data: any): AxiosPromise<ResponseType> => {
     })
 }
 
+export const versionList = (data: any): AxiosPromise<ResponseType> => {
+    return ajax.request({
+        url: VUE_APP_PARTNER_HOST + '/course/version/listVersion',
+        data,
+        method: 'post'
+    })
+}
 
+export const versionDel = (data: any): AxiosPromise<ResponseType> => {
+    return ajax.request({
+        url: VUE_APP_PARTNER_HOST + '/course/version/delVersion',
+        data,
+        method: 'post'
+    })
+}
+
+export const versionUpdate = (data: any): AxiosPromise<ResponseType> => {
+    return ajax.request({
+        url: VUE_APP_PARTNER_HOST + '/course/version/addOrUpdateVersion',
+        data,
+        method: 'post'
+    })
+}
