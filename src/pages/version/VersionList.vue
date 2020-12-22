@@ -1,7 +1,7 @@
 <template>
     <div class="page">
         <header class="page-header">
-            <el-button type="primary" @click="handleAdd">添加课程</el-button>
+            <el-button type="primary" @click="handleAdd">添加版本</el-button>
         </header>
         <el-table v-loading="listLoading" :data="tableList" border style="width: 100%">
             <el-table-column label="版本名字" prop="versionName"/>
@@ -66,11 +66,13 @@ export default class extends Vue {
     }
 
     private handleAdd() {
-        this.$router.push(`/course/version-update?type=add`);
+        const { courseId } = this.$route.query;
+        this.$router.push(`/course/version-update?type=add&courseId=${courseId}`);
     }
 
     private handleEdit(item: TableListType) {
-        this.$router.push(`/course/version-update?type=edit&editForm=${JSON.stringify(item)}`);
+        const { courseId } = this.$route.query;
+        this.$router.push(`/course/version-update?type=edit&editForm=${JSON.stringify(item)}&courseId=${courseId}`);
     }
 
     private handleDelete(id: number) {

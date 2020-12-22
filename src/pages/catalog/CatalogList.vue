@@ -12,6 +12,11 @@
                     <span>{{ handleTimeFormatter(row.creationTime || '') }}</span>
                 </template>
             </el-table-column> -->
+            <el-table-column label="是否体验课程" prop="isExperienceClass">
+                <template slot-scope="{row}">
+                    <span>{{ row.isExperienceClass ? '是' : '否' }}</span>
+                </template>
+            </el-table-column>
             <el-table-column width="280px" fixed="right" label="操作" prop="operation">
                 <template slot-scope="{row}">
                         <el-button size="mini" class="operation-button"
@@ -50,6 +55,7 @@ interface TableListType {
     catalogDescContent: string;
     creationTime: string;
     orderNum: number;
+    isExperienceClass: boolean;
 }
 
 @Component({
@@ -71,6 +77,7 @@ export default class extends Vue {
         id: 0,
         creationTime: '',
         orderNum: 0,
+        isExperienceClass: false,
         catalogDescContent: ''
     };
 
@@ -125,8 +132,8 @@ export default class extends Vue {
     }
 
     private handleDetail(id: number) {
-        const { courseId } = this.$route.query;
-        this.$router.push(`/course/chapter-list?courseId=${courseId}&catalogId=${id}`);
+        const { courseId, versionId } = this.$route.query;
+        this.$router.push(`/course/chapter-list?courseId=${courseId}&catalogId=${id}&versionId=${versionId}`);
     }
 
 }

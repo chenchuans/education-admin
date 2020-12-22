@@ -82,10 +82,10 @@ export default class extends Vue {
     private async getList() {
         this.tableList = [];
         const { page, size } = this.pages;
-        const { courseId, catalogId } = this.$route.query;
+        const { courseId, catalogId, versionId } = this.$route.query;
         this.listLoading = true;
         const { data } = await chapterList({page, size, courseChapterInfo: {
-            courseId, catalogId
+            courseId, catalogId, versionId
         }});
         this.tableList = (data as any).courseChapterInfos;
         this.pages.total = (data as any).total;
@@ -111,8 +111,8 @@ export default class extends Vue {
     }
 
     private handleDelete(id: number) {
-        const { courseId, catalogId } = this.$route.query;
-        chapterDel({courseChapterInfo: {id, courseId, catalogId}}).then((res: any) => {
+        const { courseId, catalogId, versionId } = this.$route.query;
+        chapterDel({courseChapterInfo: {id, courseId, catalogId, versionId}}).then((res: any) => {
             if (res.code === 200) {
                 this.$message({
                     type: 'success',
@@ -124,8 +124,8 @@ export default class extends Vue {
     }
 
     private handleDetail(id: number) {
-        const { courseId, catalogId } = this.$route.query;
-        this.$router.push(`/course/content-list?courseId=${courseId}&chapterId=${id}&catalogId=${catalogId}`);
+        const { courseId, catalogId, versionId } = this.$route.query;
+        this.$router.push(`/course/content-list?courseId=${courseId}&chapterId=${id}&catalogId=${catalogId}&versionId=${versionId}`);
     }
 }
 </script>

@@ -10,6 +10,14 @@
             <el-form-item label="目录描述" prop="catalogDescContent">
                 <el-input v-model="form.catalogDescContent" type="textarea"/>
             </el-form-item>
+            <el-form-item label="是否体验课程" prop="isExperienceClass">
+                <el-switch
+                    v-model="form.isExperienceClass"
+                    active-color="#13ce66"
+                    active-text="是"
+                    inactive-text="否">
+                </el-switch>
+            </el-form-item>
             <el-form-item label="资料名称" prop="materialsName">
                 <el-input v-model="form.materialsName"/>
             </el-form-item>
@@ -36,6 +44,7 @@ interface FormType {
     creationTime: string;
     updateTime: string;
     courseId: any;
+    isExperienceClass: boolean;
     materialsName: string;
     orderNum: number;
     materialsUrl: string;
@@ -58,6 +67,7 @@ export default class extends Vue {
         creationTime: '',
         updateTime: '',
         courseId: '',
+        isExperienceClass: false,
         orderNum: 0
     };
     private title: string = '';
