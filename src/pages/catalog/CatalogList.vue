@@ -90,10 +90,10 @@ export default class extends Vue {
     private async getList() {
         this.tableList = [];
         const { page, size } = this.pages;
-        const { courseId } = this.$route.query;
+        const { courseId, versionId } = this.$route.query;
         this.listLoading = true;
         const { data } = await catalogList({page, size, courseCatalogInfo: {
-            courseId
+            courseId, versionId
         }});
         this.tableList = (data as any).courseCatalogInfos;
         this.pages.total = (data as any).total;

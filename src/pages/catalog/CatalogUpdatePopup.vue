@@ -82,13 +82,13 @@ export default class extends Vue {
         ],
         catalogDescContent: [
             { required: true, message: '请输入目录描述', trigger: 'blur' }
-        ],
-        materialsName: [
-            { required: true, message: '请输入资料名称', trigger: 'blur' }
-        ],
-        materialsUrl: [
-            { required: true, message: '请上传资料', trigger: 'blur' }
         ]
+        // materialsName: [
+        //     { required: true, message: '请输入资料名称', trigger: 'blur' }
+        // ],
+        // materialsUrl: [
+        //     { required: true, message: '请上传资料', trigger: 'blur' }
+        // ]
 
     };
 
