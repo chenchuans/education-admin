@@ -1,6 +1,7 @@
 <template>
     <div
         v-if="!item.meta || !item.meta.hidden"
+        v-show="!(role === 'TEACHER' && item.meta.role === 'TEACHER')"
         :class="['menu-wrapper', isCollapse ? 'simple-mode' : 'full-mode', {'first-level': isFirstLevel}]"
     >
         <template v-if="theOnlyOneChild && !theOnlyOneChild.children">
@@ -43,6 +44,7 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 import { Route, RouteConfig } from "vue-router";
 import { isExternal } from "@/utils/validate";
 import SidebarItemLink from "./SidebarItemLink.vue";
+import { getRole } from '@/utils/session';
 
 @Component({
     name: "SidebarItem",
@@ -56,14 +58,7 @@ export default class extends Vue {
     @Prop({ default: true }) private isFirstLevel!: boolean;
     @Prop({ default: "" }) private basePath!: string;
 
-    // get hasAccess() {
-    //     if (this.item.meta) {
-    //         return this.$store.state.auth.access.includes(
-    //             this.item.meta.access
-    //         );
-    //     }
-    //     return true;
-    // }
+    private role: string = getRole();
 
     get showingChildNumber() {
         if (this.item.children) {

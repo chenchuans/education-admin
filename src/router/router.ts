@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import Layout from '@/layout/index.vue';
-import { getUid, getToken } from '@/utils/session';
+import { getUid, getToken, getRole } from '@/utils/session';
 
 Vue.use(Router);
 
@@ -23,14 +23,16 @@ const router = new Router({
             path: '/login',
             component: () => import('@/pages/Login.vue'),
             meta: {
-                hidden: true
+                hidden: true,
+                role: 'ADMIN'
             }
         },
         {
             path: '/404',
             component: () => import('@/pages/404.vue'),
             meta: {
-                hidden: true
+                hidden: true,
+                role: 'ADMIN'
             }
         },
         {
@@ -43,7 +45,8 @@ const router = new Router({
                     component: () => import('@/pages/Home.vue'),
                     meta: {
                         title: '首页',
-                        icon: 'dashboard'
+                        icon: 'dashboard',
+                        role: 'ADMIN'
                     }
                 }
             ]
@@ -55,14 +58,16 @@ const router = new Router({
             meta: {
                 title: '课程管理',
                 icon: 'dashboard',
-                access: 'course'
+                access: 'course',
+                role: 'ADMIN'
             },
             children: [
                 {
                     path: 'list',
                     component: () => import('@/pages/course/CourseList.vue'),
                     meta: {
-                        title: '所有课程'
+                        title: '所有课程',
+                        role: 'ADMIN'
                     }
                 },
                 {
@@ -70,7 +75,8 @@ const router = new Router({
                     component: () => import('@/pages/course/CourseUpdate.vue'),
                     meta: {
                         title: '创建/编辑课程',
-                        hidden: true
+                        hidden: true,
+                        role: 'ADMIN'
                     }
                 },
                 {
@@ -78,7 +84,8 @@ const router = new Router({
                     component: () => import('@/pages/version/VersionList.vue'),
                     meta: {
                         title: '课程详情',
-                        hidden: true
+                        hidden: true,
+                        role: 'ADMIN'
                     }
                 },
                 {
@@ -86,7 +93,8 @@ const router = new Router({
                     component: () => import('@/pages/version/VersionUpdate.vue'),
                     meta: {
                         title: '版本编辑',
-                        hidden: true
+                        hidden: true,
+                        role: 'ADMIN'
                     }
                 },
                 {
@@ -94,7 +102,8 @@ const router = new Router({
                     component: () => import('@/pages/catalog/CatalogList.vue'),
                     meta: {
                         title: '版本详情',
-                        hidden: true
+                        hidden: true,
+                        role: 'ADMIN'
                     }
                 },
                 {
@@ -102,7 +111,8 @@ const router = new Router({
                     component: () => import('@/pages/chapter/ChapterList.vue'),
                     meta: {
                         title: '课程小节列表',
-                        hidden: true
+                        hidden: true,
+                        role: 'ADMIN'
                     }
                 },
                 {
@@ -110,7 +120,8 @@ const router = new Router({
                     component: () => import('@/pages/content/ContentList.vue'),
                     meta: {
                         title: '课程内容',
-                        hidden: true
+                        hidden: true,
+                        role: 'ADMIN'
                     }
                 }
             ]
@@ -122,14 +133,16 @@ const router = new Router({
             component: Layout,
             meta: {
                 title: '运营管理',
-                access: 'operate'
+                access: 'operate',
+                role: 'ADMIN'
             },
             children: [
                 {
                     path: 'semester-management',
                     component: () => import('@/pages/semester/SemesterManagement.vue'),
                     meta: {
-                        title: '学期管理'
+                        title: '学期管理',
+                        role: 'TEACHER'
                     }
                 },
                 {
@@ -137,14 +150,16 @@ const router = new Router({
                     component: () => import('@/pages/semester/SemesterManagementUpdate.vue'),
                     meta: {
                         title: '学期管理编辑',
-                        hidden: true
+                        hidden: true,
+                        role: 'TEACHER'
                     }
                 },
                 {
                     path: 'teacher-management',
                     component: () => import('@/pages/teacher/TeacherManagement.vue'),
                     meta: {
-                        title: '老师管理'
+                        title: '老师管理',
+                        role: 'TEACHER'
                     }
                 },
                 {
@@ -152,21 +167,24 @@ const router = new Router({
                     component: () => import('@/pages/teacher/TeacherManagementUpdate.vue'),
                     meta: {
                         title: '老师管理编辑',
-                        hidden: true
+                        hidden: true,
+                        role: 'TEACHER'
                     }
                 },
                 {
                     path: 'course-promotion',
                     component: () => import('@/pages/operate/CoursePromotion.vue'),
                     meta: {
-                        title: '课程推广'
+                        title: '课程推广',
+                        role: 'ADMIN'
                     }
                 },
                 {
                     path: 'learning-situation',
                     component: () => import('@/pages/operate/LearningSituation.vue'),
                     meta: {
-                        title: '学生学习状况'
+                        title: '学生学习状况',
+                        role: 'ADMIN'
                     }
                 },
             ]
@@ -176,7 +194,8 @@ const router = new Router({
             path: '*',
             redirect: '/404',
             meta: {
-                hidden: true
+                hidden: true,
+                role: 'ADMIN'
             }
         }
     ]
@@ -187,6 +206,12 @@ router.beforeEach((to, from, next) => {
 
     const uid: string = getUid();
     const token: string = getToken();
+    const role: string = getRole();
+
+    if (to.meta.role === 'TEACHER' && role === 'TEACHER') {
+        // 普通管理员和超级管理员权限校验
+        return next({ path: '/404' });
+    }
 
     if ((!uid || !token) && to.path !== '/login') {
         return next({path: '/login'});

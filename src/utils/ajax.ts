@@ -5,7 +5,7 @@
  */
 
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosPromise, AxiosResponse } from 'axios';
-import { getUid, getToken, removeToken, removeUid, removeUsername } from '@/utils/session';
+import { getUid, getToken, removeToken, removeUid, removeUsername, removeRole } from '@/utils/session';
 import { Message } from 'element-ui';
 
 class Ajax {
@@ -36,6 +36,7 @@ class Ajax {
                 removeToken();
                 removeUid();
                 removeUsername();
+                removeRole();
                 Message({
                     message: '当前用户已经在其他地方登录，请及时修改密码!',
                     type: 'error'

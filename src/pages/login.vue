@@ -61,7 +61,7 @@ import { Route } from "vue-router";
 import { Form as ElForm, Input } from "element-ui";
 import { isValidUsername } from "@/utils/validate";
 import { login } from '@/api';
-import { setUid, setToken, setUsername } from '@/utils/session';
+import { setUid, setToken, setUsername, setRole } from '@/utils/session';
 
 @Component({
     name: "Login"
@@ -131,7 +131,8 @@ export default class extends Vue {
                     type: 'success',
                     message: '登录成功!'
                 });
-                const { id, token, userName } = result.data;
+                const { id, token, userName, userRole } = result.data;
+                setRole(userRole);
                 setUid(id);
                 setToken(token);
                 setUsername(userName);

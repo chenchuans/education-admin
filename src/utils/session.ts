@@ -22,3 +22,9 @@ export const setUsername = (userName: string) => {
     window.localStorage.userName = userName;
 }
 export const removeUsername = () => window.localStorage.removeItem('userName');
+
+export const getRole = () => window.localStorage.role;
+export const setRole = (role: string) => {
+    window.localStorage.role = role;
+}
+export const removeRole = () => window.localStorage.removeItem('role');
