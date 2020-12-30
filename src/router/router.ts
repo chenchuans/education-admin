@@ -21,7 +21,7 @@ const router = new Router({
     routes: [
         {
             path: '/login',
-            component: () => import('@/pages/Login.vue'),
+            component: () => import('@/pages/base/Login.vue'),
             meta: {
                 hidden: true,
                 role: 'ADMIN'
@@ -29,7 +29,7 @@ const router = new Router({
         },
         {
             path: '/404',
-            component: () => import('@/pages/404.vue'),
+            component: () => import('@/pages/base/404.vue'),
             meta: {
                 hidden: true,
                 role: 'ADMIN'
@@ -42,7 +42,7 @@ const router = new Router({
             children: [
                 {
                     path: 'home',
-                    component: () => import('@/pages/Home.vue'),
+                    component: () => import('@/pages/base/Home.vue'),
                     meta: {
                         title: '首页',
                         icon: 'dashboard',
