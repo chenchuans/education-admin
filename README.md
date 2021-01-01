@@ -1,6 +1,6 @@
 # API address
 
-http://34.96.172.236:8088/eduweb/v1/swagger-ui.html#/
+https://34.96.172.236:8088/eduweb/v1/swagger-ui.html#/
 
 <p align="center">
   <img width="120" src="public/img/icons/android-chrome-512x512.png">
