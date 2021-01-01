@@ -44,7 +44,7 @@ class Ajax {
                 window.location.hash = "#/login";
                 return;
             }
-            if (code !== 200) {
+            if (code !== 200 && code !== 210) {
                 // 提示 message 错误信息
                 Message({
                     message,

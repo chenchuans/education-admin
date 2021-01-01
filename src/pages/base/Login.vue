@@ -139,6 +139,11 @@ export default class extends Vue {
                 this.$router.push({
                     path: "/home"
                 });
+            } else if (result.code === 210) {
+                this.$message({
+                    type: 'error',
+                    message: result.data
+                });
             }
         });
     }
