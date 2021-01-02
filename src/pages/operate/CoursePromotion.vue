@@ -88,7 +88,7 @@ export default class extends Vue {
 
     private handleClick(id: number) {
         // 复制此课程链接去推广
-        const url = `courseId=${id}`;
+        const url = `https://shuquedu.com/#/content-detail?courseId=${id}`;
         copyToClip(url);
         this.$message({
             type: 'success',
