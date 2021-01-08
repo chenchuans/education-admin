@@ -44,6 +44,7 @@ interface FormType {
     creationTime: string;
     updateTime: string;
     courseId: any;
+    versionId: any;
     isExperienceClass: boolean;
     materialsName: string;
     orderNum: number;
@@ -67,6 +68,7 @@ export default class extends Vue {
         creationTime: '',
         updateTime: '',
         courseId: '',
+        versionId: '',
         isExperienceClass: false,
         orderNum: 0
     };
@@ -100,7 +102,9 @@ export default class extends Vue {
         }
         delete this.form.creationTime;
         delete this.form.updateTime;
-        this.form.courseId = this.$route.query.courseId;
+        const {courseId, versionId} = this.$route.query;
+        this.form.courseId = courseId;
+        this.form.versionId = versionId;
     }
 
     private onSubmit(formName: string) {
