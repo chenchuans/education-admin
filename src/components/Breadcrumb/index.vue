@@ -74,7 +74,12 @@ export default class extends Vue {
             this.$router.push(redirect);
             return;
         }
-        this.$router.push(this.pathCompile(path));
+        const allToPath = this.pathCompile(path);
+        if (allToPath === '/course') {
+            this.$router.push('/course/list');
+        } else {
+            this.$router.push(allToPath);
+        }
     }
 }
 </script>
