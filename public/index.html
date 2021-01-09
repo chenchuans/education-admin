@@ -1,14 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+
+<head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <link rel="icon"
-        href="https://mmbiz.qlogo.cn/mmbiz_png/LIszgiauYVcRVSh9dDTRyHibMkKu6zlncuHLSrvGHtfd8PMhsOzkTkVXfumnBN4EjYicTjqxVDVK6zddmem15rSzg/0?wx_fmt=png">
-    <title>数趣后台管理</title>
-  </head>
-  <body>
+    <link rel="icon" href="https://livintown.oss-cn-beijing.aliyuncs.com/wxapp/logo.ico">
+    <title>加载中...</title>
+    <% if (htmlWebpackPlugin.options.var.isProd){ %>
+    <script src="https://livintown.oss-cn-beijing.aliyuncs.com/mobile-libs/vue-cli-bundle.min.js"></script>
+    <% } %>
+</head>
+
+<body>
     <div id="app"></div>
-  </body>
+</body>
+
 </html>
