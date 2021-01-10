@@ -6,7 +6,7 @@ export const handleTimeFormatter = (value: string) => value.substr(0, 10);
  */
 export const copyToClip = (content: string) => {
     let aux = document.createElement("input");
-    aux.setAttribute("value", '122324');
+    aux.setAttribute("value", content);
     document.body.appendChild(aux);
     aux.select();
     document.execCommand("copy");
