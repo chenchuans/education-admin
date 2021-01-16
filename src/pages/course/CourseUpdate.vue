@@ -38,6 +38,7 @@
 import { Component, Vue } from "vue-property-decorator";
 import UploadImage from '@/components/UploadImage/index.vue';
 import { courseUpdate } from "@/api";
+import { isPositiveNumber } from "@/utils/validate";
 
 interface FormType {
     courseName: '',
@@ -80,6 +81,13 @@ export default class extends Vue {
     };
     private title: string = '';
     private submitLoading: boolean = false;
+    private validatePrice: any = (rule: any, value: string, callback: any) => {
+        if (!isPositiveNumber(value)) {
+            return new callback(new Error('请输入大于0的数字'));
+        } else {
+            callback();
+        }
+    };
     private rules = {
         courseName: [
             { required: true, message: '请输入课程名称', trigger: 'blur' },
@@ -96,13 +104,16 @@ export default class extends Vue {
             { required: true, message: '请输入老师描述', trigger: 'blur' }
         ],
         specialPrice: [
-            { required: true, message: '请输入优惠价', trigger: 'blur' }
+            { required: true, message: '请输入优惠价', trigger: 'blur' },
+            { validator: this.validatePrice, message: '请输入大于0的数字', trigger: 'blur' }
         ],
         coursePrice: [
-            { required: true, message: '请输入原价', trigger: 'blur' }
+            { required: true, message: '请输入原价', trigger: 'blur' },
+            { validator: this.validatePrice, message: '请输入大于0的数字', trigger: 'blur' }
         ],
         experienceClassPrice: [
-            { required: true, message: '请输入体验课价', trigger: 'blur' }
+            { required: true, message: '请输入体验课价', trigger: 'blur' },
+            { validator: this.validatePrice, message: '请输入大于0的数字', trigger: 'blur' }
         ],
         courseCoverImageUrl: [
             { required: true, message: '请上传封面图片', trigger: 'change' },
