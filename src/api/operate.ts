@@ -74,3 +74,30 @@ export const getTeacher = (data: any): AxiosPromise<ResponseType> => {
         method: 'post'
     })
 }
+
+// 学生学习状况 - 展示
+export const getStudyTableList = (data: any): AxiosPromise<ResponseType> => {
+    return ajax.request({
+        url: VUE_APP_PARTNER_HOST + '/manage/semester/student/status/list',
+        data,
+        method: 'post'
+    })
+}
+
+// 学生学习状况-修改
+export const saveStudyInfo = (data: any): AxiosPromise<ResponseType> => {
+    return ajax.request({
+        url: VUE_APP_PARTNER_HOST + '/manage/semester/student/status/add',
+        data,
+        method: 'post'
+    })
+}
+
+// 学生学习状况-学期展示
+export const getSelectSemesterList = (data: any): AxiosPromise<ResponseType> => {
+    return ajax.request({
+        url: VUE_APP_PARTNER_HOST + '/manage/semester/student/status/listSemester',
+        data,
+        method: 'get'
+    })
+}

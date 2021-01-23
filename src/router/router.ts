@@ -187,6 +187,14 @@ const router = new Router({
                         role: 'ADMIN'
                     }
                 },
+                {
+                    path: 'edit-learning-situation',
+                    component: () => import('@/pages/operate/EditLearningSituation.vue'),
+                    meta: {
+                        title: '修改学生学习状况',
+                        role: 'ADMIN'
+                    }
+                },
             ]
         },
         // --------------------运营管理-------------

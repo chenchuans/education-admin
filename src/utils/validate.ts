@@ -8,3 +8,5 @@ export const isValidURL = (url: string) => {
 }
 
 export const isPositiveNumber = (str: string) => /^\d+(?=\.{0,1}\d+$|$)/.test(str) && +str > 0
+
+export const isPhone = (phone: string) => /^((13[0-9])|(17[0-1,6-8])|(15[^4,\\D])|(18[0-9]))\d{8}$/.test(phone)
